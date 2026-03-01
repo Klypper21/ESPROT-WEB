@@ -3,1004 +3,2395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESPROT - Empresa de Seguridad y Protección Sancti Spíritus</title>
-    <style>
-      /* Reset y estilos base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f8f9fa;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Header y Navegación */
-header {
+    <title>ESPROT | Empresa de Seguridad y Protección de Sancti Spíritus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    color: white;
-    position: fixed;
-    top: 0;
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.3.17/dist/lenis.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #ff6b6b;
+            --secondary: #1d3557;
+            --accent: #457b9d;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --light: #f8f9fa;
+            --text-light: #f1faee;
+            --text-muted: #94a3b8;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, #ff6b6b 100%);
+            --glass: rgba(29, 53, 87, 0.9);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: auto; /* Lenis handles this */
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Smooth scroll container */
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- ANIMATED HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            background: rgba(15, 23, 42, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.8rem 0;
+            transform: translateY(-100%);
+            animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+
+        header.scrolled {
+            background: var(--glass);
+            padding: 0.4rem 0;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Logo container with text */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards 0.3s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .logo-img {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+        }
+
+        header.scrolled .logo-img {
+            height: 70px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-title {
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 0.2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: navLinkIn 0.5s ease forwards;
+        }
+
+        .nav-link:nth-child(1) { animation-delay: 0.4s; }
+        .nav-link:nth-child(2) { animation-delay: 0.5s; }
+        .nav-link:nth-child(3) { animation-delay: 0.6s; }
+        .nav-link:nth-child(4) { animation-delay: 0.7s; }
+
+        @keyframes navLinkIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-link:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-light);
+        }
+
+        .nav-link:hover:before {
+            width: 100%;
+        }
+
+        .nav-link i {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Contact button in nav */
+        .nav-contact-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: buttonPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.8s;
+        }
+
+        @keyframes buttonPop {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .nav-contact-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(230, 57, 70, 0.4);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        }
+
+        /* Header contact info */
+        .header-contact {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards 0.9s;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(5px);
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            font-size: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .phone-number {
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+
+        /* Hamburger menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 5px;
+        }
+        
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active .bar:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .bar:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Mobile menu */
+        .nav-menu.active {
+            display: flex !important;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(15px);
+            justify-content: center;
+            align-items: center;
+            gap: 2.5rem;
+            z-index: 1000;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .nav-menu.active .header-contact {
+            flex-direction: column;
+            margin-top: 2rem;
+        }
+
+        /* --- HERO SECTION WITH PARALLAX --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(255,107,53,0.1), transparent),
+                        linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)),
+                        url('/imgs/fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -1;
+            transform: scale(1.1);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .hero-content h1 .line {
+            display: block;
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-content .btn {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Floating elements */
+        .floating-shield {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15rem;
+            color: rgba(230, 57, 70, 0.1);
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .floating-shield img {
     width: 100%;
-    height: 10%;
-    z-index: 1000;
-    transition: all 0.3s ease;
+    height: auto;
+    opacity: 0.2; /* Ajusta la opacidad a tu gusto */
+    
+    object-fit: contain;
 }
 
-header.scrolled {
-    background-color: #1a1a2e;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    padding: 5px;
-}
+        @keyframes float {
+            0%, 100% { transform: translateY(-50%) translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-50%) translateY(-20px) rotate(5deg); }
+        }
 
-.navbar {
-    padding: 1rem 0;
-}
+        /* BUTTONS */
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
 
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
 
-.logo h2 {
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.8rem;
-}
+        .btn:hover:before {
+            width: 300px;
+            height: 300px;
+        }
 
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-}
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
+        }
 
-.nav-link {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(230, 57, 70, 0.4);
+            
+        }
 
-.nav-link:hover {
-    color: #ff6b35;
-}
+        /* --- SERVICES SECTION WITH ANIMATIONS --- */
+        .services-section {
+            padding: 100px 0;
+            background: #0a0f1d;
+            position: relative;
+            overflow: hidden;
+        }
 
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-}
+        .services-section:before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(230,57,70,0.03) 0%, transparent 70%);
+            top: -50%;
+            left: -50%;
+            pointer-events: none;
+        }
 
-.bar {
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    margin: 3px 0;
-    transition: 0.3s;
-}
-/* Hero Section */
-.hero {
-    background: linear-gradient(rgba(26, 26, 46, 0.8), rgba(26, 26, 46, 0.8)), url('/imgs/fondo.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    color: white;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    height: 100vh;
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .service-card {
+            background: var(--dark-light);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s cubic-bezier(0, 0, 0, 0);
+            opacity: 0;
+            transform: translateY(100px) rotateX(15deg);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(230, 57, 70, 0.2);
+        }
+
+        .service-card:nth-child(1) { --delay: 0.1s; }
+        .service-card:nth-child(2) { --delay: 0.1s; }
+        .service-card:nth-child(3) { --delay: 0.1s; }
+        .service-card:nth-child(4) { --delay: 0.1s; }
+        .service-card:nth-child(5) { --delay: 0.1s; }
+        .service-card:nth-child(6) { --delay: 0.1s; }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-slide img {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover .carousel-slide img {
+            transform: scale(1.1);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            background: rgba(230, 57, 70, 0.9);
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .service-card:hover .carousel-btn {
+            transform: translateY(-50%) scale(1);
+            opacity: 1;
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary);
+            transform: translateY(-50%) scale(1.1) !important;
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        .service-info {
+            padding: 2rem;
+            position: relative;
+        }
+
+        .service-info h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .service-info h3:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .service-card:hover .service-info h3:after {
+            width: 100%;
+        }
+
+        .service-info p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+      /* --- LOCATION SECTION WITH PARALLAX - MEJORADO PARA PC --- */
+.location-section {
+    padding: 100px 0;
+    background: var(--dark);
     position: relative;
-    padding: 0 20px;
+    overflow: hidden;
 }
 
-.hero-content {
-    max-width: 800px;
-    z-index: 1;
-}
-
-.hero-content h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1.5rem;
-    font-weight: bold;
-    line-height: 1.2;
-}
-
-.hero-content p {
-    font-size: 1.3rem;
-    margin-bottom: 2.5rem;
-    line-height: 1.6;
-}
-
-
-/* Botones */
-.btn {
-    display: inline-block;
-    padding: 12px 30px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: none;
-    font-size: 1rem;
-}
-
-.btn-primary {
-    background-color: #ff6b35;
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: #e55a2b;
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background-color: transparent;
-    color: #ff6b35;
-    border: 2px solid #ff6b35;
-}
-
-.btn-secondary:hover {
-    background-color: #ff6b35;
-    color: white;
-}
-
-/* Features Section */
-.features {
-    padding: 80px 0;
-    background-color: white;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: #1a1a2e;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.feature-card {
-    text-align: center;
-    padding: 2rem;
-    border-radius: 10px;
-    background-color: #f8f9fa;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.feature-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.feature-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #1a1a2e;
-}
-
-/* Services Preview */
-.services-preview {
-    padding: 80px 0;
-    background-color: #f8f9fa;
-}
-
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.service-card {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-}
-
-.service-card:hover {
-    transform: translateY(-5px);
-}
-
-.service-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #1a1a2e;
-}
-
-.service-card p {
-    color: #666;
-}
-
-.text-center {
-    text-align: center;
-}
-
-/* Contact Preview */
-.contact-preview {
-    padding: 80px 0;
-    background-color: #1a1a2e;
-    color: white;
-    text-align: center;
-}
-
-.contact-preview h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-.contact-preview p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-}
-
-/* Footer */
-footer {
-    background-color: #0d0d1a;
-    color: white;
-    padding: 50px 0 20px;
-}
-
-.footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
-.footer-section h3 {
-    margin-bottom: 1rem;
-    color: #ff6b35;
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 2rem;
-    border-top: 1px solid #333;
-}
-
-/* Modal de Contacto */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
+.location-section:before {
+    content: '';
+    position: absolute;
+    top: 0;
     left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(45deg, transparent 48%, rgba(230,57,70,0.03) 50%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(230,57,70,0.03) 50%, transparent 52%);
+    background-size: 100px 100px;
+    opacity: 0.5;
+    pointer-events: none;
 }
 
-.modal-content {
-    background-color: white;
-    margin: 5% auto;
-    padding: 2rem;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
+.location-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr; /* Mejor proporción para PC */
+    gap: 3rem;
+    align-items: start; /* Alineación al inicio, no centrada */
+}
+
+.location-info {
+    opacity: 0;
+    transform: translateX(-50px);
+}
+
+.location-info h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
     position: relative;
+    display: inline-block;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+.location-info h2:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: var(--gradient);
+    border-radius: 2px;
 }
 
-.close:hover {
-    color: #000;
+.location-info h3 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    position: relative;
+    display: inline-block;
 }
 
-#contacto-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+.location-info h3:before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 0;
+    background: var(--primary);
+    transition: height 0.6s ease;
 }
 
-#contacto-form input,
-#contacto-form textarea {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-family: inherit;
+.location-info.revealed h3:before {
+    height: 100%;
 }
 
-#contacto-form button {
-    margin-top: 1rem;
-}
-
-/* Página de Servicios */
-.services-hero {
-    background-color: #1a1a2e;
-    color: white;
-    padding: 120px 0 60px;
-    text-align: center;
-}
-
-.services-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.services-list {
-    padding: 80px 0;
-    background-color: white;
-}
-
-.service-detail {
+/* Contenedor de Sede Principal - Optimizado para PC */
+.sede-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    margin-bottom: 4rem;
-    align-items: center;
-}
-
-.service-detail:nth-child(even) .service-text {
-    order: 2;
-}
-
-.service-detail:nth-child(even) .service-image {
-    order: 1;
-}
-
-.service-text h3 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #1a1a2e;
-}
-
-.service-text p {
-    margin-bottom: 1rem;
-    color: #666;
-}
-
-.service-features {
-    list-style: none;
-    margin-top: 1rem;
-}
-
-.service-features li {
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-}
-
-.service-features li:before {
-    content: "✓";
-    color: #ff6b35;
-    font-weight: bold;
-    position: absolute;
-    left: 0;
-}
-
-.service-image {
-    background-color: #f8f9fa;
-    height: 300px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    color: #1a1a2e;
-}
-
-/* Página de Nosotros */
-.about-hero {
-    background-color: #1a1a2e;
-    color: white;
-    padding: 120px 0 60px;
-    text-align: center;
-}
-
-.about-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.about-content {
-    padding: 80px 0;
-}
-
-.about-section {
-    margin-bottom: 4rem;
-}
-
-.about-section h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #1a1a2e;
-}
-
-.about-section p {
-    margin-bottom: 1rem;
-    color: #666;
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem;
-    margin: 3rem 0;
+    margin-bottom: 2.5rem;
+    background: linear-gradient(145deg, var(--dark-light) 0%, #151f32 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    box-shadow: var(--shadow);
 }
 
-.stat-card {
+.sede-container:hover {
+    border-color: var(--primary);
+    box-shadow: 0 15px 35px rgba(230, 57, 70, 0.15);
+    transform: translateY(-5px);
+}
+
+.sede-imagen {
+    position: relative;
+    overflow: hidden;
+    min-height: 280px;
+}
+
+.sede-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.sede-container:hover .sede-img {
+    transform: scale(1.05);
+}
+
+.sede-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+    color: white;
+    padding: 1.2rem;
+    font-weight: 600;
     text-align: center;
-    padding: 2rem;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-}
-
-.stat-number {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #ff6b35;
-    display: block;
-}
-
-.stat-label {
-    color: #666;
     font-size: 1.1rem;
 }
 
-.values-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+.sede-texto {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.value-card {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+.sede-texto p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+.sede-details {
+    margin-top: auto;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+.detail-item:hover {
+    color: var(--text-light);
+    transform: translateX(5px);
+    background: rgba(230, 57, 70, 0.08);
+}
+
+.detail-item i {
+    color: var(--primary);
+    font-size: 1.2rem;
+    width: 24px;
     text-align: center;
 }
 
-.value-card h3 {
-    color: #1a1a2e;
-    margin-bottom: 1rem;
+/* Sección UEB Municipales - Optimizada para PC */
+.ueb-section {
+    margin: 2.5rem 0;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex;
+.ueb-section h4 {
+    color: var(--text-light);
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.ueb-section h4:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--primary);
+}
+
+.ueb-intro {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 90%;
+}
+
+.ueb-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en PC */
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+.ueb-card {
+    background: linear-gradient(145deg, var(--dark-light) 0%, #1a2438 100%);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ueb-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 30px rgba(230, 57, 70, 0.2);
+}
+
+.ueb-imagen {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+}
+
+.ueb-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.ueb-card:hover .ueb-imagen img {
+    transform: scale(1.1);
+}
+
+.ueb-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(230, 57, 70, 0.9);
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ueb-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.ueb-info h5 {
+    color: var(--primary);
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+    transition: color 0.3s ease;
+}
+
+.ueb-card:hover .ueb-info h5 {
+    color: var(--primary-light);
+}
+
+.ueb-info p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.ueb-stats {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: auto;
+}
+
+.ueb-stats span {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.ueb-stats i {
+    color: var(--primary);
+}
+
+/* Extensiones Regionales - Optimizado para PC */
+.branches-list {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.branches-list h4 {
+    color: var(--text-light);
+    margin-bottom: 1.2rem;
+    font-size: 1.5rem;
+}
+
+.branches-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.branch-item {
+    background: var(--dark-light);
+    padding: 1.2rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    cursor: pointer;
+}
+
+.branch-item:hover {
+    transform: translateY(-5px);
+    background: rgba(230, 57, 70, 0.1);
+    border-left-width: 6px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.branch-item h5 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+    font-size: 1.1rem;
+}
+
+.branch-item:hover h5 {
+    color: var(--primary-light);
+}
+
+.branch-item p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.quote-text {
+    margin-top: 2.5rem;
+    font-style: italic;
+    color: var(--primary);
+    opacity: 0;
+    transform: translateY(20px);
+    position: relative;
+    padding-left: 25px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.quote-text:before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -10px;
+    font-size: 3.5rem;
+    color: var(--primary);
+    opacity: 0.3;
+    font-family: serif;
+    font-weight: bold;
+}
+
+/* Mapa - Optimizado para PC */
+.map-container {
+    height: 100%;
+    min-height: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    opacity: 0;
+    transform: translateX(50px) scale(0.9);
+    transition: all 0.6s ease;
+    position: sticky;
+    top: 100px; /* Se queda fijo al hacer scroll */
+}
+
+.map-container:hover {
+    transform: translateX(0) scale(1);
+    box-shadow: 0 35px 70px rgba(230, 57, 70, 0.25);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: grayscale(100%) contrast(1.2) brightness(0.9);
+    transition: filter 0.5s ease;
+}
+
+.map-container:hover iframe {
+    filter: grayscale(0%) contrast(1) brightness(1);
+}
+
+/* Leyenda del mapa */
+.map-legend {
+    position: absolute;
+    width: 80%;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(15px);
+    padding: 1.2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.map-container:hover .map-legend {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.legend-color.primary {
+    background: var(--primary);
+    box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+}
+
+/* Animaciones específicas para PC */
+@media (min-width: 993px) {
+    .sede-container {
+        animation: fadeInUp 0.8s ease forwards 0.3s;
+    }
+    
+    .ueb-card:nth-child(1) { animation: fadeInUp 0.8s ease forwards 0.4s; }
+    .ueb-card:nth-child(2) { animation: fadeInUp 0.8s ease forwards 0.5s; }
+    .ueb-card:nth-child(3) { animation: fadeInUp 0.8s ease forwards 0.6s; }
+    .ueb-card:nth-child(4) { animation: fadeInUp 0.8s ease forwards 0.7s; }
+    
+    .branch-item:nth-child(1) { animation: fadeInUp 0.8s ease forwards 0.8s; }
+    .branch-item:nth-child(2) { animation: fadeInUp 0.8s ease forwards 0.9s; }
+    .branch-item:nth-child(3) { animation: fadeInUp 0.8s ease forwards 1.0s; }
+    .branch-item:nth-child(4) { animation: fadeInUp 0.8s ease forwards 1.1s; }
+}
+
+/* Mantener responsive para móvil */
+@media (max-width: 992px) {
+    .location-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .sede-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .ueb-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .map-container {
+        height: 350px;
+        min-height: unset;
+        position: static;
+    }
+    
+    .ueb-imagen {
+        height: 200px;
+    }
+}
+
+        /* --- FOOTER WITH REVEAL --- */
+        .logo-footer img {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 0.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-footer:hover img {
+            transform: scale(1.05);
+        }
+
+        .site-footer {
+            background: #0a0f1d;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 40px 0 40px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-footer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            transform: scaleX(0);
+            transition: transform 1s ease;
+        }
+
+        .site-footer.revealed:before {
+            transform: scaleX(1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .footer-column h3 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .footer-column p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            max-width: 300px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .footer-column.revealed .footer-links li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .footer-links li:nth-child(1) { transition-delay: 0.1s; }
+        .footer-links li:nth-child(2) { transition-delay: 0.2s; }
+        .footer-links li:nth-child(3) { transition-delay: 0.3s; }
+        .footer-links li:nth-child(4) { transition-delay: 0.4s; }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            padding-left: 0;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(10px);
+            padding-left: 10px;
+        }
+
+        .footer-links a svg {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-links a:hover svg {
+            transform: rotate(15deg) scale(1.2);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--dark-light);
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icon:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .social-icon:hover:before {
+            transform: translateX(100%);
+        }
+
+        .social-icon.facebook {
+            background: linear-gradient(45deg, #1877F2, #0d5cb6);
+        }
+
+        .social-icon.x {
+            background: linear-gradient(45deg, #000000, #333333);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px) scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-legal a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .footer-legal a:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .footer-legal a:hover {
+            color: var(--primary);
+        }
+
+        .footer-legal a:hover:after {
+            width: 100%;
+        }
+
+        /* --- MODAL WITH ANIMATION --- */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            place-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: grid;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--dark-light);
+            padding: 3rem;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: scale(0.8) translateY(50px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--dark);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            background: rgba(230, 57, 70, 0.2);
+            transform: rotate(90deg);
+            color: var(--primary);
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient);
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* Magnetic effect for buttons */
+        .magnetic {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-contact {
+                display: none;
+            }
+            
+            .nav-menu.active .header-contact {
+                display: flex;
+            }
+
+            .location-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .map-container {
+                height: 350px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .floating-shield {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .logo-title {
+                font-size: 1.5rem;
+            }
+            
+            .logo-img {
+                height: 50px;
+            }
+            
+            header.scrolled .logo-img {
+                height: 45px;
+            }
+            
+            .nav-contact-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .hero-content h1 { 
+                font-size: 2.5rem; 
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .branches-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .location-info h2 {
+                font-size: 2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-column p {
+                max-width: 100%;
+            }
+            
+            .social-icons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .map-container {
+                height: 300px;
+            }
+            
+            .branch-item {
+                padding: 0.8rem;
+            }
+            
+            .footer-legal {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (min-width: 993px) {
+    .container {
+        max-width: 1400px;
+        padding: 0 1rem;
+    }
+    
+    header {
+        padding: 0.5rem 0;
+    }
+    
+    .logo-img {
+        height: 70px;
+    }
+    
+    .logo-title {
+        font-size: 1.6rem;
     }
     
     .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 70px;
-        flex-direction: column;
-        background-color: #1a1a2e;
-        width: 100%;
-        text-align: center;
-        transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0,0,0,0.05);
-        padding: 2rem 0;
+        gap: 1.5rem;
     }
     
-    .nav-menu.active {
-        left: 0;
+    .header-contact {
+        gap: 1rem;
     }
     
-    /* Estilos para la barra hamburguesa activa */
-    .hamburger.active .bar:nth-child(2) {
-        opacity: 0;
-    }
-    
-    .hamburger.active .bar:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-    }
-    
-    .hamburger.active .bar:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-    }
-    
-    /* Asegurar que el header tenga fondo en móvil cuando el menú está activo */
-    header .navbar.active {
-        background-color: #1a1a2e;
-    }
-    
-     .hero {
-        padding: 0 15px;
-        
-    }
-    
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-    
-    .hero-content p {
-        font-size: 1.1rem;
-    }
-    
-    .btn {
-        padding: 12px 25px;
-    }
-}
-    
-    .section-title {
-        font-size: 2rem;
-    }
-    
-    .service-detail {
-        grid-template-columns: 1fr;
-    }
-    
-    .service-detail:nth-child(even) .service-text,
-    .service-detail:nth-child(even) .service-image {
-        order: initial;
-    }
-    
-    .modal-content {
-        margin: 10% auto;
-        width: 95%;
-        padding: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 0 15px;
-    }
-    
-    .hero-content h1 {
-        font-size: 1.8rem;
-    }
-    
-    .hero-content p {
-        font-size: 1rem;
-    }
-    
-    .btn {
-        display: block;
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    
-    .hero-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-    .features-grid,
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .btn {
-        padding: 10px 20px;
+    .nav-link {
         font-size: 0.9rem;
     }
-}
-/* Ajustes responsive */
-@media (max-width: 992px) {
-    .hero-content h1 {
-        font-size: 2.8rem;
-    }
     
-    .hero-content p {
-        font-size: 1.2rem;
+    .nav-contact-btn {
+        padding: 0.6rem 1.5rem;
     }
 }
-/* Animación para hamburguesa activa */
-.hamburger.active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
 
-.hamburger.active .bar:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="container">
-                <div class="logo">
-                    <h2>ESPROT</h2>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- HEADER -->
+    <header id="main-header">
+        <nav class="navbar container">
+            <a href="#" class="logo-container magnetic">
+                <img src="imgs/logo3.png" alt="ESPROT" class="logo-img">
+                <div class="logo-text">
+                    <div class="logo-title">ESPROT</div>
+                    <div class="logo-subtitle">Seguridad y Protección</div>
                 </div>
-                <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Inicio</a></li>
-                    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
-                    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
-                </ul>
-                <div class="hamburger">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
+            </a>
+
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link magnetic"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#servicios" class="nav-link magnetic"><i class="fas fa-shield-alt"></i> Servicios</a></li>
+                <li><a href="#ubicacion" class="nav-link magnetic"><i class="fas fa-map-marker-alt"></i> Ubicación</a></li>
+                <li><a href="#nosotros" class="nav-link magnetic"><i class="fas fa-users"></i> Nosotros</a></li>
+                
+                <li><a href="SHOP.html" class="nav-link magnetic" ><i class="fas fa-store"></i> Tienda</a></li>
+                
+                <div class="header-contact">
+                    <div class="contact-item magnetic">
+                        <i class="fas fa-phone"></i>
+                        <span class="phone-number">+53 555 123 4567</span>
+                    </div>
+                    <div class="contact-item magnetic">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 Disponible</span>
+                    </div>
                 </div>
+                
+                <li><a href="javascript:void(0)" onclick="openModal()" class="nav-contact-btn magnetic">
+                    <i class="fas fa-envelope"></i> Contacto
+                </a></li>
+            </ul>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
             </div>
         </nav>
     </header>
 
     <main>
+        <!-- HERO SECTION -->
         <section class="hero">
+            <div class="hero-bg" data-speed="0.5"></div>
+            <div class="floating-shield">
+    <img src="imgs/logo3.png" alt="ESPROT Logo" style="width: 100%; height: auto; opacity: 0.15; filter: brightness(0) invert(1);">
+</div>
             <div class="container">
                 <div class="hero-content">
-                    <h1>La Seguridad es Nuestra Prioridad</h1>
-                    <p>Protegemos lo que más valoras con servicios de seguridad profesionales y confiables. Más de 10 años de experiencia en el sector.</p>
-                    <a href="servicios.html" class="btn btn-primary">Conoce Nuestros Servicios</a>
+                    <h1>
+                        <span class="line">Seguridad y Protección</span>
+                        <span class="line" style="color: var(--primary)">Sancti Spíritus</span>
+                    </h1>
+                    <p>Protegemos sus activos más valiosos con tecnología de punta y personal élite. Experiencia probada en seguridad integral.</p>
+                    <a href="SHOP.html" class="btn btn-primary magnetic"><i class="fas fa-store"></i> TIENDA</a>
                 </div>
             </div>
         </section>
 
-        <section class="features">
-            <div class="container">
-                <h2 class="section-title">¿Por Qué Elegirnos?</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🛡️</div>
-                        <h3>Protección Integral</h3>
-                        <p>Soluciones de seguridad completas adaptadas a tus necesidades específicas.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Respuesta Inmediata</h3>
-                        <p>Atención 24/7 con tiempos de respuesta rápidos para tu tranquilidad.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">👨‍✈️</div>
-                        <h3>Personal Cualificado</h3>
-                        <p>Equipo profesional altamente entrenado y certificado en seguridad.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+       <!-- SERVICES SECTION -->
+<section id="servicios" class="services-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Nuestros Servicios Especializados</h2>
+            <p>Soluciones integrales diseñadas a la medida de su tranquilidad.</p>
+        </div>
 
-        <section class="services-preview">
-            <div class="container">
-                <h2 class="section-title">Nuestros Servicios</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <h3>Seguridad Personal</h3>
-                        <p>Escoltas y protección personal para ejecutivos, familias y personas públicas.</p>
+        <div class="services-grid">
+            <!-- Servicio 1 -->
+            <div class="service-card">
+                <div class="carousel-container" data-carousel="1">
+                    <div class="carousel-slide">
+                        <img src="imgs/raul.jpg" alt="Seguridad Personal">
+                        <img src="imgs/alba.jpg" alt="Agentes">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=500" alt="Protección">
                     </div>
-                    <div class="service-card">
-                        <h3>Vigilancia 24/7</h3>
-                        <p>Monitoreo constante de instalaciones con sistemas de última tecnología.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Seguridad de Eventos</h3>
-                        <p>Cobertura integral para eventos corporativos, sociales y masivos.</p>
-                    </div>
+                    <button class="carousel-btn prev" onclick="moveSlide(-1, 0)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveSlide(1, 0)">&#10095;</button>
                 </div>
-                <div class="text-center">
-                    <a href="servicios.html" class="btn btn-secondary">Ver Todos los Servicios</a>
+                <div class="service-info">
+                    <h3>Seguridad Personal</h3>
+                    <p>Protección ejecutiva de alto nivel con agentes especializados en análisis de riesgo y respuesta inmediata.</p>
                 </div>
             </div>
-        </section>
 
-        <section class="contact-preview">
-            <div class="container">
-                <h2>¿Necesitas Protección Profesional?</h2>
-                <p>Contacta con nosotros y recibe una evaluación gratuita de tus necesidades de seguridad.</p>
-                <button class="btn btn-primary" onclick="mostrarContacto()">Solicitar Información</button>
+            <!-- Servicio 2 -->
+            <div class="service-card">
+                <div class="carousel-container" data-carousel="2">
+                    <div class="carousel-slide">
+                        <img src="imgs/cctv.jpg" alt="CCTV">
+                        <img src="imgs/orestes.jpg" alt="Monitoreo">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=500" alt="Vigilancia">
+                    </div>
+                    <button class="carousel-btn prev" onclick="moveSlide(-1, 1)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveSlide(1, 1)">&#10095;</button>
+                </div>
+                <div class="service-info">
+                    <h3>Vigilancia 24/7</h3>
+                    <p>Sistemas de monitoreo inteligente con IA y patrullaje físico preventivo para instalaciones críticas.</p>
+                </div>
             </div>
-        </section>
+
+            <!-- Servicio 3 -->
+            <div class="service-card">
+                <div class="carousel-container" data-carousel="3">
+                    <div class="carousel-slide">
+                        <img src="imgs/extintor.jpg" alt="Eventos">
+                        <img src="https://images.unsplash.com/photo-1505232458567-cc265c536dfc?auto=format&fit=crop&q=80&w=500" alt="Concierto">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=500" alt="Evento Corporativo">
+                    </div>
+                    <button class="carousel-btn prev" onclick="moveSlide(-1, 2)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveSlide(1, 2)">&#10095;</button>
+                </div>
+                <div class="service-info">
+                    <h3>Llenado de Extintores</h3>
+                    <p>Servicio de llenado y certificación de extintores</p>
+                </div>
+            </div>
+
+            <!-- NUEVO SERVICIO 4 - Seguridad Residencial -->
+            <div class="service-card">
+                <div class="carousel-container" data-carousel="4">
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=500" alt="Casa Segura">
+                        <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?auto=format&fit=crop&q=80&w=500" alt="Alarma Residencial">
+                        <img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&q=80&w=500" alt="Vigilancia Residencial">
+                    </div>
+                    <button class="carousel-btn prev" onclick="moveSlide(-1, 3)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveSlide(1, 3)">&#10095;</button>
+                </div>
+                <div class="service-info">
+                    <h3>Seguridad Residencial</h3>
+                    <p>Protección integral para hogares con sistemas de alarma, videovigilancia y respuesta a emergencias.</p>
+                </div>
+            </div>
+
+            <!-- NUEVO SERVICIO 5 - Ciberseguridad -->
+            <div class="service-card">
+                <div class="carousel-container" data-carousel="5">
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=500" alt="Redes Seguras">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=500" alt="Firewall">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=500" alt="Protección Digital">
+                    </div>
+                    <button class="carousel-btn prev" onclick="moveSlide(-1, 4)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveSlide(1, 4)">&#10095;</button>
+                </div>
+                <div class="service-info">
+                    <h3>Ciberseguridad</h3>
+                    <p>Protección de datos y redes contra amenazas digitales, con monitoreo constante y respuesta a incidentes.</p>
+                </div>
+            </div>
+
+            <!-- NUEVO SERVICIO 6 - Transporte de Valores -->
+            <div class="service-card">
+                <div class="carousel-container" data-carousel="6">
+                    <div class="carousel-slide">
+                        <img src="https://images.unsplash.com/photo-1561112075-2c0ee5823c07?auto=format&fit=crop&q=80&w=500" alt="Transporte Seguro">
+                        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=500" alt="Custodia">
+                        <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&q=80&w=500" alt="Logística">
+                    </div>
+                    <button class="carousel-btn prev" onclick="moveSlide(-1, 5)">&#10094;</button>
+                    <button class="carousel-btn next" onclick="moveSlide(1, 5)">&#10095;</button>
+                </div>
+                <div class="service-info">
+                    <h3>Transporte de Valores</h3>
+                    <p>Custodia y transporte seguro de documentos, efectivo y objetos de valor con vehículos y personal capacitado.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- LOCATION SECTION -->
+<section id="ubicacion" class="location-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>¿Dónde nos encontramos?</h2>
+            <p>Cobertura nacional con sede principal y extensiones estratégicas</p>
+        </div>
+
+        <div class="location-content">
+            <!-- Sección Sede Principal con Imagen -->
+            <div class="location-info">
+                <h3>Sede Principal</h3>
+                <div class="sede-container">
+                    <div class="sede-imagen">
+                        <img src="imgs/1.jpg" alt="Sede Principal ESPROT Sancti Spíritus" class="sede-img">
+                        <div class="sede-overlay">
+                            <span>Centro de Operaciones 24/7</span>
+                        </div>
+                    </div>
+                    <div class="sede-texto">
+                        <p>Nuestra sede central se encuentra en <strong>Sancti Spíritus</strong>, desde donde coordinamos todas nuestras operaciones a nivel nacional. Contamos con instalaciones de última generación y un centro de monitoreo operativo 24/7.</p>
+                        <div class="sede-details">
+                            <div class="detail-item">
+                                <i class="fas fa-building"></i>
+                                <span>Estructura moderna con tecnología avanzada</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-desktop"></i>
+                                <span>Sala de monitoreo con pantallas de 4K</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Sistemas de seguridad redundantes</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <span>Equipo de respuesta rápida 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección UEB Municipales -->
+                <div class="ueb-section">
+                    <h4>UEB Municipales en la Provincia</h4>
+                    <p class="ueb-intro">Extendemos nuestra cobertura a través de Unidades Empresariales de Base en los municipios más importantes:</p>
+                    
+                    <div class="ueb-grid">
+                        <!-- Yaguajay -->
+                        <div class="ueb-card">
+                            <div class="ueb-imagen">
+                                <img src="imgs/yaguajay.jpg" alt="UEB Yaguajay">
+                                <div class="ueb-overlay">
+                                    <span>Centro Norte</span>
+                                </div>
+                            </div>
+                            <div class="ueb-info">
+                                <h5>Yaguajay</h5>
+                                <p>Cobertura en el municipio norteño con protección a zonas agrícolas y turísticas.</p>
+                                <div class="ueb-stats">
+                                    <span><i class="fas fa-user-shield"></i> 15 agentes</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Cabaiguán -->
+                        <div class="ueb-card">
+                            <div class="ueb-imagen">
+                                <img src="imgs/cabaiguan.jpg" alt="UEB Cabaiguán">
+                                <div class="ueb-overlay">
+                                    <span>Centro Industrial</span>
+                                </div>
+                            </div>
+                            <div class="ueb-info">
+                                <h5>Cabaiguán</h5>
+                                <p>Protección especializada para zonas industriales y complejos residenciales.</p>
+                                <div class="ueb-stats">
+                                    <span><i class="fas fa-user-shield"></i> 12 agentes</span>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sancti Spíritus -->
+                        <div class="ueb-card">
+                            <div class="ueb-imagen">
+                                <img src="imgs/sancti_spiritus_ciudad.jpg" alt="UEB Sancti Spíritus Ciudad">
+                                <div class="ueb-overlay">
+                                    <span>Capital Provincial</span>
+                                </div>
+                            </div>
+                            <div class="ueb-info">
+                                <h5>Sancti Spíritus Ciudad</h5>
+                                <p>Unidad central con cobertura urbana completa y respuesta en minutos.</p>
+                                <div class="ueb-stats">
+                                    <span><i class="fas fa-user-shield"></i> 25 agentes</span>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Trinidad -->
+                        <div class="ueb-card">
+                            <div class="ueb-imagen">
+                                <img src="imgs/trinidad.jpg" alt="UEB Trinidad">
+                                <div class="ueb-overlay">
+                                    <span>Patrimonio Mundial</span>
+                                </div>
+                            </div>
+                            <div class="ueb-info">
+                                <h5>Trinidad</h5>
+                                <p>Protección especial para zona turística patrimonial y hoteles de lujo.</p>
+                                <div class="ueb-stats">
+                                    <span><i class="fas fa-user-shield"></i> 18 agentes</span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Extensiones Regionales (existente) -->
+                <div class="branches-list">
+                    <h4>Extensiones Regionales Nacionales</h4>
+                    <div class="branches-grid">
+                        <div class="branch-item">
+                            <h5>Cienfuegos</h5>
+                            <p>Cobertura en la región central sur</p>
+                        </div>
+                        <div class="branch-item">
+                            <h5>Villa Clara</h5>
+                            <p>Servicios en el corazón de Cuba</p>
+                        </div>
+                        <div class="branch-item">
+                            <h5>Holguín</h5>
+                            <p>Presencia en el oriente del país</p>
+                        </div>
+                        <div class="branch-item">
+                            <h5>Las Tunas</h5>
+                            <p>Extensión en la región oriental</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="quote-text">
+                    Donde quiera que esté, ESPROT está cerca para proteger lo que más importa.
+                </p>
+            </div>
+            
+            <!-- Mapa -->
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.123456789!2d-79.432178!3d21.935717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDU2JzA4LjYiTiA3OcKwMjUnNTUuOCJX!5e0!3m2!1ses!2ses!4v1620000000000!5m2!1ses!2ses" 
+                    allowfullscreen="" 
+                    loading="lazy"
+                    title="Ubicación de ESPROT en Sancti Spíritus">
+                </iframe>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-color primary"></div>
+                        <span>Sede Principal</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
     </main>
 
-    <footer>
+    <!-- FOOTER -->
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h3>SeguridadPro</h3>
-                    <p>Tu seguridad es nuestra prioridad. Servicios profesionales de protección y vigilancia.</p>
+                <div class="footer-column">
+                    <div class="logo-footer magnetic">
+                        <img src="imgs/logo.png" alt="ESPROT - Seguridad de Vanguardia">
+                    </div>
+                    <p>Seguridad de vanguardia para un mundo real. Protegemos lo que más importa con tecnología avanzada y personal altamente capacitado.</p>
+                    <div class="social-icons">
+                        <a href="https://facebook.com" target="_blank" class="social-icon facebook magnetic" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://x.com/EsprotSancti" target="_blank" class="social-icon x magnetic" aria-label="X (Twitter)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <div class="footer-section">
-                    <h3>Contacto</h3>
-                    <p>Teléfono: +34 911 123 456</p>
-                    <p>Email: info@seguridadpro.com</p>
+                
+                <div class="footer-column">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Inicio</a></li>
+                        <li><a href="#servicios" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Servicios</a></li>
+                        <li><a href="#ubicacion" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Ubicación</a></li>
+                        <li><a href="#" onclick="openModal()" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Contacto</a></li>
+                    </ul>
                 </div>
-                <div class="footer-section">
-                    <h3>Dirección</h3>
-                    <p>Calle de la Seguridad 123</p>
-                    <p>28001 Madrid, España</p>
+                
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +53 555 123 4567</a></li>
+                        <li><a href="mailto:info@esprot.com" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@esprot.com</a></li>
+                        <li><a href="#ubicacion" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Sancti Spíritus, Cuba</a></li>
+                        <li><a href="javascript:void(0)" onclick="openModal()" class="btn btn-primary magnetic" style="padding: 0.6rem 1.5rem; margin-top: 0.5rem; display: inline-block;">Solicitar Evaluación</a></li>
+                    </ul>
                 </div>
             </div>
+            
             <div class="footer-bottom">
-                <p>&copy; 2026 SeguridadPro. Todos los derechos reservados.</p>
+                <div class="footer-legal">
+                    <a href="#" class="magnetic">Política de Privacidad</a>
+                    <a href="#" class="magnetic">Términos de Servicio</a>
+                    <a href="#" class="magnetic">Aviso Legal</a>
+                </div>
+                <p class="copyright">&copy; 2026 ESPROT Sancti Spíritus. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
-    <div id="contacto-modal" class="modal">
+    <!-- MODAL -->
+    <div id="contactModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="cerrarContacto()">&times;</span>
-            <h2>Contacta con Nosotros</h2>
-            <form id="contacto-form">
-                <input type="text" placeholder="Nombre" required>
-                <input type="email" placeholder="Email" required>
-                <input type="tel" placeholder="Teléfono">
-                <textarea placeholder="Mensaje" rows="4" required></textarea>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+            <h2>Solicitar Evaluación</h2>
+            <form id="contactForm">
+                <input type="text" placeholder="Nombre completo" required>
+                <input type="email" placeholder="Correo electrónico" required>
+                <textarea rows="4" placeholder="¿Cómo podemos ayudarle?" required></textarea>
+                <button type="submit" class="btn btn-primary" style="width: 100%">Enviar Solicitud</button>
             </form>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
     </div>
-    
 
     <script>
-      // Menú hamburguesa para móviles
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
+        // Initialize Lenis for smooth scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
 
-hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-});
-
-// Cerrar menú al hacer clic en un enlace
-const navLinks = document.querySelectorAll('.nav-link');
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-    });
-});
-
-// Cambiar color de la barra al hacer scroll
-const header = document.querySelector('header');
-
-function updateHeader() {
-    if (window.scrollY > 50 || navMenu.classList.contains('active')) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
-}
-
-// Ejecutar al cargar y al hacer scroll
-updateHeader();
-window.addEventListener('scroll', updateHeader);
-
-// También actualizar al abrir/cerrar el menú (móvil)
-hamburger.addEventListener('click', () => {
-    updateHeader();
-});
-
-// Cerrar menú al hacer clic en cualquier parte fuera del menú (opcional)
-document.addEventListener('click', (event) => {
-    const isClickInsideMenu = navMenu.contains(event.target) || hamburger.contains(event.target);
-    
-    if (!isClickInsideMenu && navMenu.classList.contains('active')) {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-        updateHeader();
-    }
-});
-
-// Modal de contacto
-function mostrarContacto() {
-    const modal = document.getElementById('contacto-modal');
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Prevenir scroll del body
-}
-
-function cerrarContacto() {
-    const modal = document.getElementById('contacto-modal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto'; // Restaurar scroll
-}
-
-// Cerrar modal al hacer clic fuera del contenido
-window.addEventListener('click', (event) => {
-    const modal = document.getElementById('contacto-modal');
-    if (event.target === modal) {
-        cerrarContacto();
-    }
-});
-
-// Cerrar modal con la tecla ESC
-document.addEventListener('keydown', (event) => {
-    const modal = document.getElementById('contacto-modal');
-    if (event.key === 'Escape' && modal.style.display === 'block') {
-        cerrarContacto();
-    }
-});
-
-// Manejo del formulario de contacto
-document.getElementById('contacto-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    // Obtener los valores del formulario
-    const formData = new FormData(this);
-    const nombre = this.querySelector('input[type="text"]').value;
-    const email = this.querySelector('input[type="email"]').value;
-    const telefono = this.querySelector('input[type="tel"]').value;
-    const mensaje = this.querySelector('textarea').value;
-    
-    // Validación básica
-    if (!nombre || !email || !mensaje) {
-        alert('Por favor, completa todos los campos obligatorios.');
-        return;
-    }
-    
-    // Simular envío del formulario
-    const submitButton = this.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    
-    submitButton.textContent = 'Enviando...';
-    submitButton.disabled = true;
-    
-    // Simular tiempo de envío
-    setTimeout(() => {
-        alert('¡Gracias por contactarnos! Nos pondremos en contacto contigo pronto.');
-        
-        // Resetear el formulario
-        this.reset();
-        
-        // Cerrar el modal
-        cerrarContacto();
-        
-        // Restaurar el botón
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-    }, 2000);
-});
-
-// Efecto de scroll suave para los enlaces internos
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
         }
-    });
-});
 
-// Animación de aparición al hacer scroll
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
+        requestAnimationFrame(raf);
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
+        // Integrate Lenis with GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
 
-// Aplicar animación a las tarjetas
-const animatedElements = document.querySelectorAll('.feature-card, .service-card, .stat-card, .value-card');
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
 
-animatedElements.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-});
+        gsap.ticker.lagSmoothing(0);
 
-// Animación de contadores para las estadísticas
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-number');
-    
-    counters.forEach(counter => {
-        const target = parseInt(counter.textContent);
-        const duration = 2000; // 2 segundos
-        const step = target / (duration / 16); // 60fps
-        let current = 0;
+        // Scroll Progress Bar
+        lenis.on('scroll', ({ progress }) => {
+            document.getElementById('scrollProgress').style.width = `${progress * 100}%`;
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Animations
+        const heroTimeline = gsap.timeline();
         
-        const timer = setInterval(() => {
-            current += step;
-            if (current >= target) {
-                counter.textContent = target + (counter.textContent.includes('+') ? '+' : '');
-                clearInterval(timer);
-            } else {
-                counter.textContent = Math.floor(current) + (counter.textContent.includes('+') ? '+' : '');
-            }
-        }, 16);
-    });
-}
+        heroTimeline
+            .to('.hero-content h1 .line', {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power4.out'
+            })
+            .to('.hero-content p', {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power3.out'
+            }, '-=0.5')
+            .to('.hero-content .btn', {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'back.out(1.7)'
+            }, '-=0.5');
 
-// Activar animación de contadores cuando se vean las estadísticas
-const statsSection = document.querySelector('.stats-grid');
-if (statsSection) {
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounters();
-                statsObserver.unobserve(entry.target);
+        // Hero Parallax
+        gsap.to('.hero-bg', {
+            yPercent: 50,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
             }
         });
-    }, { threshold: 0.5 });
-    
-    statsObserver.observe(statsSection);
-}
 
-// Prevenir el envío del formulario con Enter en los campos individuales
-document.querySelectorAll('#contacto-form input').forEach(input => {
-    input.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            // Enfocar el siguiente campo o enviar si es el último
-            const nextElement = this.nextElementSibling;
-            if (nextElement && nextElement.tagName !== 'BUTTON') {
-                nextElement.focus();
+        gsap.to('.floating-shield', {
+            rotation: 360,
+            yPercent: -30,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+
+        // Services Section Animations
+        gsap.to('.section-header h2', {
+            scrollTrigger: {
+                trigger: '.section-header',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power3.out'
+        });
+
+        gsap.to('.section-header p', {
+            scrollTrigger: {
+                trigger: '.section-header',
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            delay: 0.2,
+            ease: 'power3.out'
+        });
+
+        // Service Cards Stagger Animation
+        gsap.utils.toArray('.service-card').forEach((card, i) => {
+            gsap.to(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 0,
+                rotateX: 0,
+                opacity: 1,
+                duration: 0.8,
+                delay: i * 0.1,
+                ease: 'power3.out'
+            });
+        });
+
+        // Location Section Animations
+        gsap.to('.location-info', {
+            scrollTrigger: {
+                trigger: '.location-content',
+                start: 'top 70%',
+                toggleActions: 'play none none reverse',
+                onEnter: () => document.querySelector('.location-info').classList.add('revealed')
+            },
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.to('.map-container', {
+            scrollTrigger: {
+                trigger: '.location-content',
+                start: 'top 70%',
+                toggleActions: 'play none none reverse'
+            },
+            x: 0,
+            scale: 1,
+            opacity: 1,
+            duration: 1,
+            delay: 0.2,
+            ease: 'power3.out'
+        });
+
+        // Branch Items Stagger
+        gsap.utils.toArray('.branch-item').forEach((item, i) => {
+            gsap.to(item, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.6,
+                delay: i * 0.1,
+                ease: 'power3.out'
+            });
+        });
+
+        // Quote Text Animation
+        gsap.to('.quote-text', {
+            scrollTrigger: {
+                trigger: '.quote-text',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power3.out'
+        });
+
+        // Footer Animations
+        ScrollTrigger.create({
+            trigger: '.site-footer',
+            start: 'top 80%',
+            onEnter: () => {
+                document.querySelector('.site-footer').classList.add('revealed');
+                
+                gsap.to('.footer-column', {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    ease: 'power3.out'
+                });
+
+                document.querySelectorAll('.footer-column').forEach(col => {
+                    col.classList.add('revealed');
+                });
+
+                gsap.to('.footer-bottom', {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.6,
+                    delay: 0.4,
+                    ease: 'power3.out'
+                });
+            }
+        });
+
+        // Magnetic Effect
+        const magneticElements = document.querySelectorAll('.magnetic');
+        
+        magneticElements.forEach(elem => {
+            elem.addEventListener('mousemove', (e) => {
+                const rect = elem.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                gsap.to(elem, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            elem.addEventListener('mouseleave', () => {
+                gsap.to(elem, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Hamburger Menu Logic
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            if (navMenu.classList.contains('active')) {
+                lenis.stop();
             } else {
-                document.getElementById('contacto-form').dispatchEvent(new Event('submit'));
+                lenis.start();
             }
         }
-    });
-});
 
-// Validación en tiempo real del email
-const emailInput = document.querySelector('input[type="email"]');
-if (emailInput) {
-    emailInput.addEventListener('input', function() {
-        const email = this.value;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                lenis.start();
+            });
+        });
+
+        // Scroll Header Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }, { passive: true });
+
+        // Carousel Logic
+        let slideIndices = [0, 0, 0, 0, 0, 0];
         
-        if (email && !emailRegex.test(email)) {
-            this.style.borderColor = '#ff4444';
-        } else {
-            this.style.borderColor = '#ddd';
+        function moveSlide(step, carouselIndex) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const totalSlides = slides[carouselIndex].children.length;
+            
+            slideIndices[carouselIndex] = (slideIndices[carouselIndex] + step + totalSlides) % totalSlides;
+            
+            gsap.to(slides[carouselIndex], {
+                x: -slideIndices[carouselIndex] * 100 + '%',
+                duration: 0.5,
+                ease: 'power2.inOut'
+            });
         }
+        
+        // Animaciones para Sede Principal y UEB
+gsap.to('.sede-container', {
+    scrollTrigger: {
+        trigger: '.sede-container',
+        start: 'top 80%',
+        toggleActions: 'play none none reverse'
+    },
+    y: 0,
+    opacity: 1,
+    duration: 0.8,
+    ease: 'power3.out'
+});
+
+// Animación para tarjetas UEB
+gsap.utils.toArray('.ueb-card').forEach((card, i) => {
+    gsap.to(card, {
+        scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        delay: i * 0.1,
+        ease: 'power3.out'
     });
-}
-
-// Mostrar notificación de bienvenida al cargar la página
-window.addEventListener('load', () => {
-    // Solo mostrar una vez por sesión
-    if (!sessionStorage.getItem('bienvenido')) {
-        setTimeout(() => {
-            console.log('¡Bienvenido a SeguridadPro! Tu seguridad es nuestra prioridad.');
-            sessionStorage.setItem('bienvenido', 'true');
-        }, 1000);
-    }
 });
 
-// Actualizar header al cambiar el tamaño de la ventana (responsive)
-window.addEventListener('resize', () => {
-    // Si estamos en escritorio y el menú está abierto, cerrarlo
-    if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-        updateHeader();
-    }
+// Animación para leyenda del mapa
+gsap.to('.map-legend', {
+    scrollTrigger: {
+        trigger: '.map-container',
+        start: 'top 70%',
+        toggleActions: 'play none none reverse'
+    },
+    y: 0,
+    opacity: 1,
+    duration: 0.8,
+    delay: 0.3,
+    ease: 'power3.out'
 });
+
+        // Modal Logic with Animation
+        function openModal() { 
+            const modal = document.getElementById('contactModal');
+            modal.classList.add('active');
+            lenis.stop();
+        }
+        
+        function closeModal() { 
+            const modal = document.getElementById('contactModal');
+            modal.classList.remove('active');
+            lenis.start();
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById('contactModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Animate button
+            const btn = e.target.querySelector('.btn');
+            gsap.to(btn, {
+                scale: 0.95,
+                duration: 0.1,
+                yoyo: true,
+                repeat: 1,
+                onComplete: () => {
+                    alert('¡Gracias por su solicitud! Nos pondremos en contacto pronto.');
+                    closeModal();
+                    e.target.reset();
+                }
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target, {
+                        offset: -80,
+                        duration: 1.2
+                    });
+                }
+            });
+        });
     </script>
-    
 </body>
 </html>

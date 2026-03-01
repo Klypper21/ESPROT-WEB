@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ESPROT — Tienda</title>
+  <meta name="description" content="ESPROT - Equipamiento profesional de seguridad con instalación incluida." />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <style>
+    /* ---------- Reset y variables ---------- */
+    :root{
+      --bg:#0f1724; --panel:#111827; --muted:#94a3b8; --text:#eef2f7;
+      --primary:#e63946; --primary-dark:#c1121f; --success:#10b981;
+      --glass: rgba(255,255,255,0.03);
+      --card-radius:16px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(180deg,var(--bg),#071022); color:var(--text);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+    a{color:inherit}
+    .container{max-width:1200px;margin:0 auto;padding:0 18px;}
+
+    /* ---------- Header ---------- */
+    header{
+      position:fixed; left:0; right:0; top:0; z-index:1000;
+      backdrop-filter: blur(8px);
+      background:rgba(7,16,34,0.45);
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .nav{height:72px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand .logo{
+      width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,var(--primary),#ff6b6b); font-weight:800; color:white; font-size:18px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.4);
+    }
+    .brand h1{font-size:18px;margin:0}
+    .nav-actions{display:flex;align-items:center;gap:12px}
+
+    /* ---------- Hero ---------- */
+    .hero{
+      margin-top:84px;
+      padding:48px 0;
+      display:flex;gap:28px;align-items:center;justify-content:space-between;
+    }
+    .hero-left{flex:1}
+    .hero-title{font-size:34px;margin:0 0 8px;font-weight:800; background:linear-gradient(90deg,#fff,var(--primary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent}
+    .hero-par{color:var(--muted); margin:0 0 16px}
+    .hero-cta{display:flex;gap:12px}
+
+    .hero-right{flex:1; display:flex;justify-content:center}
+    .hero-card{width:360px;border-radius:18px;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04)}
+    .hero-card img{width:100%;height:220px;object-fit:cover;border-radius:12px}
+
+    /* ---------- Controls ---------- */
+    .controls{position:sticky;top:72px;z-index:900;padding:12px 0;background:transparent}
+    .controls-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .search{
+      flex:1; max-width:480px; position:relative;
+    }
+    .search input{
+      width:100%;padding:10px 14px 10px 40px;border-radius:999px;border:1px solid rgba(255,255,255,0.06);
+      background:rgba(0,0,0,0.25); color:var(--text);
+    }
+    .search .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    .filter-btn{
+      border-radius:999px;padding:8px 14px;border:1px solid rgba(255,255,255,0.04); background:transparent;color:var(--text);cursor:pointer;
+      transition:all .2s;
+    }
+    .filter-btn.active{background:var(--primary); color:white; border-color:var(--primary-dark); transform:translateY(-2px)}
+
+    /* ---------- Grid ---------- */
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px}
+    .card{
+      background:var(--panel);border-radius:var(--card-radius);overflow:hidden;border:1px solid rgba(255,255,255,0.03);
+      transition:transform .25s, box-shadow .25s; cursor:default;
+    }
+    .card:hover{transform:translateY(-8px); box-shadow:0 30px 60px rgba(0,0,0,0.5)}
+    .card .media{height:200px;overflow:hidden}
+    .card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+    .card:hover img{transform:scale(1.08)}
+    .card .body{padding:14px}
+    .category-badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;background:rgba(255,255,255,0.03);color:var(--primary);font-weight:700}
+    .title{font-weight:700;margin:8px 0;font-size:16px}
+    .desc{color:var(--muted);font-size:13px;height:38px;overflow:hidden}
+    .price-row{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:12px}
+    .price{font-weight:800;color:var(--primary);font-size:18px}
+    .actions{display:flex;gap:8px}
+    .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);cursor:pointer}
+    .btn-primary{background:linear-gradient(90deg,var(--primary),#ff6b6b);color:white;border:none}
+    .small{font-size:13px;padding:6px 10px;border-radius:8px}
+
+    .badge-stock{position:absolute;left:12px;top:12px;background:linear-gradient(90deg,var(--primary),#ff6b6b);padding:6px 10px;border-radius:999px;font-weight:700;font-size:12px;color:white}
+
+    /* ---------- Modal & Drawer & Checkout ---------- */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:2000}
+    .overlay.show{display:flex}
+    .modal{width:100%;max-width:980px;background:var(--panel);border-radius:18px;border:1px solid rgba(255,255,255,0.04);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+    .modal-grid{display:grid;grid-template-columns:1fr 1fr}
+    .modal .left{padding:18px}
+    .modal .left img{width:100%;height:420px;object-fit:cover;border-radius:12px}
+    .modal .right{padding:24px}
+    .meta{display:flex;gap:12px;color:var(--muted);font-size:13px;margin:8px 0}
+    .specs{background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;margin-top:12px;color:var(--muted)}
+    .service-option{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;margin-top:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+    .service-option.selected{border-color:var(--primary);background:rgba(230,57,70,0.06)}
+
+    /* Cart drawer */
+    .cart-drawer{position:fixed;right:-460px;top:0;height:100vh;width:420px;background:var(--panel);z-index:2500;transition:right .35s;border-left:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column}
+    .cart-drawer.open{right:0}
+    .cart-header{padding:18px;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-between}
+    .cart-items{padding:14px;flex:1;overflow:auto}
+    .cart-item{display:flex;gap:12px;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);margin-bottom:10px;align-items:center}
+    .cart-item img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+    .cart-footer{padding:16px;border-top:1px solid rgba(255,255,255,0.03)}
+
+    /* Checkout modal form */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
+    textarea{min-height:80px;resize:vertical}
+
+    /* Notification */
+    .toast{position:fixed;right:20px;bottom:20px;background:var(--panel);padding:12px 16px;border-radius:12px;border-left:4px solid var(--success);box-shadow:0 12px 30px rgba(0,0,0,0.6);display:none;z-index:4000}
+    .toast.show{display:block}
+
+    /* ---------- Footer ---------- */
+    footer{padding:48px 0;margin-top:36px;background:transparent;color:var(--muted);font-size:14px}
+    .footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+    /* ---------- Responsive ---------- */
+    @media (max-width:1000px){ .grid{grid-template-columns:repeat(2,1fr)} .hero-right{display:none} .modal-grid{grid-template-columns:1fr} .modal .left img{height:260px} }
+    @media (max-width:640px){ .grid{grid-template-columns:1fr} .search{max-width:100%} .hero{padding:24px} .nav{height:64px} .cart-drawer{width:100%;} .cart-drawer.open{right:0} .hero-title{font-size:26px} .hero-card{width:100%} .form-grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">ES</div>
+        <div>
+          <h1>ESPROT</h1>
+          <div style="color:var(--muted);font-size:13px">Tienda profesional de seguridad</div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button id="btn-whatsapp" class="btn small" title="Contactar por WhatsApp">💬 WhatsApp</button>
+        <div style="position:relative">
+          <button id="btn-cart" class="btn btn-primary">🛒 Carrito <span id="cartCount" style="margin-left:8px;font-weight:800"></span></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-left">
+        <h2 class="hero-title">Soluciones completas de seguridad — Equipo + instalación</h2>
+        <p class="hero-par">Equipamiento profesional, instalación garantizada y soporte técnico. Protege lo que más importa.</p>
+        <div class="hero-cta">
+          <button onclick="scrollToProducts()" class="btn-primary btn">Ver Productos</button>
+          <button onclick="openContact()" class="btn">Solicitar cotización</button>
+        </div>
+        <div style="margin-top:14px;color:var(--muted);display:flex;gap:12px">
+          <div>✅ Instalación profesional</div>
+          <div>✅ Garantía</div>
+          <div>✅ Soporte técnico</div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-card">
+          <img src="https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?auto=format&fit=crop&q=80&w=1200" alt="Hero product">
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="controls-row">
+        <div class="search">
+          <span class="icon">🔎</span>
+          <input id="searchInput" type="text" placeholder="Buscar productos, SKU o características..." oninput="applyFilters()">
+        </div>
+        <div class="filters" id="filters"></div>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <section id="products">
+      <div class="grid" id="productsGrid"></div>
+      <div id="noProducts" style="display:none;text-align:center;color:var(--muted);margin-top:28px">No se encontraron productos</div>
+    </section>
+
+    <!-- Footer (simple) -->
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <strong>ESPROT</strong>
+          <p>Equipamiento con instalación y soporte técnico.</p>
+        </div>
+        <div>
+          <strong>Contacto</strong>
+          <p>tel: +53 555 123 4567</p>
+          <p>email: tienda@esprot.com</p>
+        </div>
+        <div>
+          <strong>Dirección</strong>
+          <p>Sancti Spíritus, Cuba</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:20px;color:var(--muted)">&copy; 2026 ESPROT</div>
+    </footer>
+
+  </main>
+
+  <!-- Product Modal -->
+  <div id="productOverlay" class="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-grid">
+        <div class="left">
+          <img id="modalImage" src="" alt="">
+        </div>
+        <div class="right">
+          <button style="float:right;background:none;border:none;color:var(--muted);font-size:18px" onclick="closeProductModal()">✕</button>
+          <h3 id="modalTitle" style="margin-top:6px;font-size:20px"></h3>
+          <div class="meta" id="modalMeta"></div>
+          <div id="modalDesc" style="color:var(--muted);margin-top:8px"></div>
+
+          <div style="margin-top:12px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="font-size:22px;font-weight:800;color:var(--primary)" id="modalPrice"></div>
+              <div id="modalOrig" style="text-decoration:line-through;color:var(--muted)"></div>
+            </div>
+          </div>
+
+          <div class="specs" id="modalSpecs"></div>
+
+          <div style="margin-top:12px">
+            <div style="display:flex;gap:8px">
+              <button class="btn-primary" id="modalAdd">🛒 Añadir al carrito</button>
+              <button class="btn" id="modalWhatsapp">💬 Consultar por WhatsApp</button>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;color:var(--muted);font-size:13px">
+            <strong>SKU:</strong> <span id="modalSKU"></span> · <strong>Marca:</strong> <span id="modalBrand"></span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
+    <div class="cart-header">
+      <strong>Tu carrito</strong>
+      <button class="btn" onclick="toggleCart()">Cerrar</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- items -->
+    </div>
+    <div class="cart-footer">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>Total</div>
+        <div style="font-weight:800;color:var(--primary)" id="cartTotal">$0.00</div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn-primary" id="btnCheckout" onclick="openCheckout()" disabled>Finalizar compra</button>
+        <button class="btn" onclick="clearCart()">Vaciar</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Checkout overlay -->
+  <div id="checkoutOverlay" class="overlay" aria-hidden="true">
+    <div class="modal" style="max-width:720px;padding:18px">
+      <button style="float:right;background:none;border:none;color:var(--muted);font-size:18px" onclick="closeCheckout()">✕</button>
+      <h3 style="margin-top:6px">Finalizar compra</h3>
+      <p style="color:var(--muted)">Completa tus datos para procesar la orden. (Demo - no hay pago real)</p>
+
+      <form id="checkoutForm" style="margin-top:12px">
+        <div class="form-grid">
+          <input class="input" id="cName" placeholder="Nombre completo" required>
+          <input class="input" id="cPhone" placeholder="Teléfono" required>
+          <input class="input" id="cEmail" placeholder="Correo" type="email" required>
+          <select class="input" id="cMunicipio">
+            <option value="">Seleccionar municipio...</option>
+            <option>Sancti Spíritus</option><option>Trinidad</option><option>Cabaiguán</option>
+          </select>
+          <textarea id="cAddress" class="input" placeholder="Dirección de instalación" required></textarea>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn-primary" type="submit">Confirmar pedido</button>
+          <button type="button" class="btn" onclick="closeCheckout()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast">¡Producto agregado al carrito!</div>
+
+  <script>
+    /**********************
+     *  Datos de productos
+     **********************/
+    const PRODUCTS = [
+      {
+        id:1, name:"Cámara IP HD 1080p", category:"Cámaras",
+        price:120, orig:150, image:"https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?auto=format&fit=crop&q=80&w=1000",
+        gallery:[], desc:"Cámara Full HD, visión nocturna 30m, IP66. Ideal interior/exterior.",
+        features:["1080p","Visión Nocturna","WiFi"], stock:8, sku:"CAM-IP-1080-01", brand:"Hikvision", warranty:"2 años"
+      },
+      {
+        id:2, name:"Kit Alarma GSM Inalámbrica", category:"Alarmas",
+        price:280, orig:350, image:"https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1000",
+        desc:"Sistema de alarma GSM con sensores y app móvil. Batería de respaldo.",
+        features:["GSM","App","Batería 24h"], stock:4, sku:"ALM-GSM-KIT-02", brand:"ESPROT Security", warranty:"1 año"
+      },
+      {
+        id:3, name:"Cable Coaxial RG59 100m", category:"Cables",
+        price:45, orig:null, image:"https://images.unsplash.com/photo-1558618047-f4b511d0e435?auto=format&fit=crop&q=80&w=1000",
+        desc:"Rollo 100m RG59, doble blindaje para CCTV. Cobre puro.",
+        features:["100m","Cobre puro"], stock:20, sku:"CBL-RG59-100M", brand:"Belden", warranty:"1 año"
+      },
+      {
+        id:4, name:"Panel Solar 100W + Batería 50Ah", category:"Paneles",
+        price:320, orig:400, image:"https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=1000",
+        desc:"Kit 100W con batería 50Ah y regulador MPPT. Perfecto para sitios remotos.",
+        features:["100W","Batería 50Ah"], stock:6, sku:"SOL-100-50-KIT", brand:"SunPower", warranty:"5 años"
+      },
+      {
+        id:5, name:"Cámara PTZ 4K Zoom 20x", category:"Cámaras",
+        price:450, orig:null, image:"https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?auto=format&fit=crop&q=80&w=1000",
+        desc:"PTZ 4K, zoom óptico 20x, seguimiento automático, visión nocturna 100m.",
+        features:["4K","Zoom 20x","PTZ"], stock:2, sku:"CAM-PTZ-4K-20X", brand:"Dahua", warranty:"3 años"
+      },
+      {
+        id:6, name:"DVR 8 Canales 5MP", category:"Accesorios",
+        price:200, orig:null, image:"https://images.unsplash.com/photo-1551703599-6b3e8379aa8c?auto=format&fit=crop&q=80&w=1000",
+        desc:"Grabador 8 canales 5MP con 1TB y compresión H.265+.",
+        features:["8 Canales","1TB"], stock:10, sku:"DVR-8CH-5MP", brand:"Hikvision", warranty:"2 años"
+      },
+    ];
+
+    /**********************
+     *  Estado y utilidades
+     **********************/
+    let cart = JSON.parse(localStorage.getItem("esprot_cart")||"[]");
+    const productsGrid = document.getElementById("productsGrid");
+    const filtersEl = document.getElementById("filters");
+    const searchInput = document.getElementById("searchInput");
+    const cartCount = document.getElementById("cartCount");
+    const cartItemsEl = document.getElementById("cartItems");
+    const cartTotalEl = document.getElementById("cartTotal");
+    const btnCheckout = document.getElementById("btnCheckout");
+    const toast = document.getElementById("toast");
+    const productOverlay = document.getElementById("productOverlay");
+    const checkoutOverlay = document.getElementById("checkoutOverlay");
+
+    /**********************
+     *  Render catálogo
+     **********************/
+    function uniqueCategories(){ return ["Todos", ...Array.from(new Set(PRODUCTS.map(p=>p.category)))]; }
+
+    function renderFilters(){
+      const cats = uniqueCategories();
+      filtersEl.innerHTML = "";
+      cats.forEach((c,i)=>{
+        const btn = document.createElement("button");
+        btn.className = "filter-btn "+(i===0?"active":"");
+        btn.innerText = c;
+        btn.onclick = ()=>{ document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); applyFilters(); };
+        filtersEl.appendChild(btn);
+      });
+    }
+
+    function formatCurrency(n){ return new Intl.NumberFormat("es-ES",{style:"currency",currency:"USD"}).format(n); }
+
+    function renderProducts(list){
+      productsGrid.innerHTML = "";
+      if(!list.length){ document.getElementById("noProducts").style.display="block"; return }
+      document.getElementById("noProducts").style.display="none";
+      list.forEach(p=>{
+        const card = document.createElement("article");
+        card.className = "card";
+        card.style.position="relative";
+        card.innerHTML = `
+          <div class="media"><img src="${p.image}" alt="${p.name}" loading="lazy"></div>
+          <div class="body">
+            <div class="category-badge">${p.category}</div>
+            <div class="title">${p.name}</div>
+            <div class="desc">${p.desc}</div>
+            <div class="price-row">
+              <div>
+                <div class="price">${formatCurrency(p.price)}</div>
+                ${p.orig?`<div style="font-size:12px;color:var(--muted);text-decoration:line-through">${formatCurrency(p.orig)}</div>`:""}
+              </div>
+              <div class="actions">
+                <button class="btn" onclick="openProductModal(${p.id})">Ver</button>
+                <button class="btn-primary" onclick="addToCartById(${p.id})">Añadir</button>
+              </div>
+            </div>
+          </div>
+        `;
+        // stock badge and urgency
+        if(p.stock<=5){
+          const b = document.createElement("div");
+          b.className="badge-stock";
+          b.innerText = p.stock>0?`Últimas ${p.stock}`:"Agotado";
+          card.appendChild(b);
+        }
+        productsGrid.appendChild(card);
+      })
+    }
+
+    /**********************
+     *  Filtros & búsqueda
+     **********************/
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      const active = document.querySelector(".filter-btn.active").innerText;
+      let res = PRODUCTS.filter(p=>{
+        const matchesQ = (p.name+" "+p.desc+" "+p.sku+" "+p.features.join(" ")).toLowerCase().includes(q);
+        const matchesC = active==="Todos" || p.category===active;
+        return matchesQ && matchesC;
+      });
+      renderProducts(res);
+    }
+
+    /**********************
+     *  Modal producto
+     **********************/
+    function openProductModal(id){
+      const p = PRODUCTS.find(x=>x.id===id);
+      if(!p) return;
+      document.getElementById("modalImage").src = p.image;
+      document.getElementById("modalTitle").innerText = p.name;
+      document.getElementById("modalDesc").innerText = p.desc;
+      document.getElementById("modalPrice").innerText = formatCurrency(p.price);
+      document.getElementById("modalOrig").innerText = p.orig?formatCurrency(p.orig):"";
+      document.getElementById("modalSKU").innerText = p.sku;
+      document.getElementById("modalBrand").innerText = p.brand;
+      document.getElementById("modalMeta").innerHTML = `<div>${p.rating||""}</div><div style="margin-left:6px">${p.warranty?p.warranty:""}</div>`;
+      // specs
+      const specs = p.features.map(f=>`<div style="display:inline-block;padding:6px 8px;margin:6px;background:rgba(255,255,255,0.02);border-radius:8px">${f}</div>`).join("");
+      document.getElementById("modalSpecs").innerHTML = specs;
+      // add listeners
+      document.getElementById("modalAdd").onclick = ()=>{ addToCartById(id); closeProductModal(); };
+      document.getElementById("modalWhatsapp").onclick = ()=>{ openWhatsApp(`Hola, quiero información sobre: ${p.name} (SKU ${p.sku})`); };
+      productOverlay.classList.add("show");
+      productOverlay.setAttribute("aria-hidden","false");
+    }
+    function closeProductModal(){ productOverlay.classList.remove("show"); productOverlay.setAttribute("aria-hidden","true"); }
+
+    /**********************
+     *  Carrito
+     **********************/
+    function syncCart(){
+      localStorage.setItem("esprot_cart", JSON.stringify(cart));
+      cartCount.innerText = cart.reduce((s,i)=>s+i.qty,0) || "";
+      renderCart();
+    }
+
+    function addToCartById(id, qty=1){
+      const p = PRODUCTS.find(x=>x.id===id);
+      if(!p) return;
+      if(p.stock === 0){ alert("Producto agotado."); return; }
+      const found = cart.find(i=>i.id===id);
+      if(found){
+        if(found.qty+qty > p.stock){ alert("No hay suficiente stock."); return; }
+        found.qty += qty;
+      } else {
+        cart.push({ id:p.id, name:p.name, price:p.price, image:p.image, qty:qty, sku:p.sku });
+      }
+      p.stock = Math.max(0, p.stock - qty); // disminuir stock simulado
+      showToast("Producto agregado al carrito");
+      syncCart();
+    }
+
+    function renderCart(){
+      cartItemsEl.innerHTML = "";
+      if(cart.length===0){
+        cartItemsEl.innerHTML = "<div style='color:var(--muted);padding:18px'>Tu carrito está vacío</div>";
+        cartTotalEl.innerText = formatCurrency(0);
+        btnCheckout.disabled = true;
+        return;
+      }
+      btnCheckout.disabled = false;
+      cart.forEach(item=>{
+        const el = document.createElement("div");
+        el.className="cart-item";
+        el.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div style="flex:1">
+            <div style="font-weight:700">${item.name}</div>
+            <div style="color:var(--muted);font-size:13px">${formatCurrency(item.price)}</div>
+            <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+              <button class="btn small" onclick="changeQty(${item.id}, ${Math.max(1,item.qty-1)})">-</button>
+              <div style="min-width:26px;text-align:center">${item.qty}</div>
+              <button class="btn small" onclick="changeQty(${item.id}, ${item.qty+1})">+</button>
+              <button class="btn" style="margin-left:8px;color:var(--primary)" onclick="removeFromCart(${item.id})">Eliminar</button>
+            </div>
+          </div>
+        `;
+        cartItemsEl.appendChild(el);
+      })
+      const total = cart.reduce((s,i)=>s + i.price*i.qty,0);
+      cartTotalEl.innerText = formatCurrency(total);
+    }
+
+    function changeQty(id, qty){
+      const idx = cart.findIndex(i=>i.id===id);
+      if(idx<0) return;
+      const prod = PRODUCTS.find(p=>p.id===id);
+      if(qty<=0) return;
+      // check stock by comparing available simulated stock + current cart qty
+      const inCart = cart[idx].qty;
+      const available = prod.stock + inCart; // because we decreased prod.stock on add
+      if(qty > available){ alert("No hay suficiente stock."); return; }
+      // adjust product stock simulation
+      prod.stock = available - qty;
+      cart[idx].qty = qty;
+      syncCart();
+    }
+
+    function removeFromCart(id){
+      const idx = cart.findIndex(i=>i.id===id);
+      if(idx<0) return;
+      // devolver stock simulado
+      const prod = PRODUCTS.find(p=>p.id===id);
+      prod.stock += cart[idx].qty;
+      cart.splice(idx,1);
+      syncCart();
+    }
+
+    function clearCart(){
+      // devolver todos los stocks
+      cart.forEach(ci=>{
+        const p = PRODUCTS.find(x=>x.id===ci.id);
+        if(p) p.stock += ci.qty;
+      })
+      cart = []; syncCart();
+    }
+
+    /**********************
+     *  UI: drawer & checkout
+     **********************/
+    function toggleCart(){ document.getElementById("cartDrawer").classList.toggle("open"); }
+
+    function openCheckout(){
+      if(cart.length===0){ alert("Tu carrito está vacío."); return; }
+      document.getElementById("cartDrawer").classList.remove("open");
+      checkoutOverlay.classList.add("show");
+      checkoutOverlay.setAttribute("aria-hidden","false");
+    }
+    function closeCheckout(){ checkoutOverlay.classList.remove("show"); checkoutOverlay.setAttribute("aria-hidden","true"); }
+
+    // checkout submit (demo)
+    document.getElementById("checkoutForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      // gather data
+      const order = {
+        customer: {
+          name: document.getElementById("cName").value,
+          phone: document.getElementById("cPhone").value,
+          email: document.getElementById("cEmail").value,
+          address: document.getElementById("cAddress").value,
+          municipio: document.getElementById("cMunicipio").value
+        },
+        items: cart,
+        total: cart.reduce((s,i)=>s+i.price*i.qty,0),
+        date: new Date().toISOString()
+      };
+      // here you would POST to your backend / WhatsApp / API
+      console.log("Order (demo):", order);
+      // clear
+      cart = []; syncCart(); closeCheckout();
+      showToast("Pedido confirmado. Nos contactaremos pronto.");
+      alert("Pedido simulado confirmado. Ver consola para detalles.");
+    });
+
+    /**********************
+     *  Toast & extras
+     **********************/
+    function showToast(msg){
+      toast.innerText = msg;
+      toast.classList.add("show");
+      setTimeout(()=>toast.classList.remove("show"), 3000);
+    }
+
+    function openWhatsApp(text){
+      const phone = "+53555123456"; // ajusta si tienes otro número
+      const url = `https://wa.me/${phone.replace(/\D/g,"")}?text=`+encodeURIComponent(text);
+      window.open(url,"_blank");
+    }
+
+    /**********************
+     *  Small helpers & init
+     **********************/
+    function addEventListeners(){
+      document.getElementById("btn-cart").addEventListener("click", ()=>{ document.getElementById("cartDrawer").classList.add("open"); renderCart(); });
+      document.getElementById("btn-whatsapp").addEventListener("click", ()=> openWhatsApp("Hola, quiero información sobre sus productos y servicios.") );
+      document.getElementById("productOverlay").addEventListener("click", (e)=>{ if(e.target.id==="productOverlay") closeProductModal(); });
+      document.getElementById("checkoutOverlay").addEventListener("click", (e)=>{ if(e.target.id==="checkoutOverlay") closeCheckout(); });
+    }
+
+    function scrollToProducts(){ document.getElementById("products").scrollIntoView({ behavior:"smooth" }); }
+    function openContact(){ openWhatsApp("Hola, quisiera una cotización y visita técnica."); }
+
+    function init(){
+      renderFilters();
+      renderProducts(PRODUCTS);
+      addEventListeners();
+      syncCart();
+      applyFilters();
+    }
+
+    // Expose some functions to global for inline handlers
+    window.openProductModal = openProductModal;
+    window.closeProductModal = closeProductModal;
+    window.addToCartById = addToCartById;
+    window.toggleCart = toggleCart;
+    window.changeQty = changeQty;
+    window.removeFromCart = removeFromCart;
+    window.clearCart = clearCart;
+    window.applyFilters = applyFilters;
+    window.openWhatsApp = openWhatsApp;
+    window.openCheckout = openCheckout;
+    window.closeCheckout = closeCheckout;
+    window.scrollToProducts = scrollToProducts;
+    window.openContact = openContact;
+
+    // Start
+    init();
+  </script>
+
+</body>
+</html>

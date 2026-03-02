@@ -302,17 +302,56 @@
         // Carousel Logic
         let slideIndices = [0, 0, 0, 0, 0, 0];
         
+        function updateCarouselButtons(carouselIndex) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const carousel = slides[carouselIndex];
+            const carouselContainer = carousel.closest('.carousel-container');
+            const prevBtn = carouselContainer.querySelector('.prev');
+            const nextBtn = carouselContainer.querySelector('.next');
+            const totalSlides = carousel.children.length;
+            const currentIndex = slideIndices[carouselIndex];
+            
+            // Mostrar/ocultar botón prev
+            if (currentIndex === 0) {
+                prevBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = '';
+            }
+            
+            // Mostrar/ocultar botón next
+            if (currentIndex === totalSlides - 1) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = '';
+            }
+        }
+        
+        function initCarousels() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            slides.forEach((slide, index) => {
+                updateCarouselButtons(index);
+            });
+        }
+        
         function moveSlide(step, carouselIndex) {
             const slides = document.querySelectorAll('.carousel-slide');
             const totalSlides = slides[carouselIndex].children.length;
+            const newIndex = slideIndices[carouselIndex] + step;
             
-            slideIndices[carouselIndex] = (slideIndices[carouselIndex] + step + totalSlides) % totalSlides;
+            // Solo permitir navegación si es válida
+            if (newIndex < 0 || newIndex >= totalSlides) {
+                return;
+            }
+            
+            slideIndices[carouselIndex] = newIndex;
             
             gsap.to(slides[carouselIndex], {
                 x: -slideIndices[carouselIndex] * 100 + '%',
                 duration: 0.5,
                 ease: 'power2.inOut'
             });
+            
+            updateCarouselButtons(carouselIndex);
         }
         
         // Animaciones para Sede Principal y UEB
@@ -410,3 +449,10 @@ gsap.to('.map-legend', {
                 }
             });
         });
+
+        // Initialize carousels on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCarousels);
+        } else {
+            initCarousels();
+        }

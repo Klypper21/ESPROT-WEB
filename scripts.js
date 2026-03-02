@@ -1,3 +1,22 @@
+        // Cargar header automáticamente en todas las páginas
+        document.addEventListener('DOMContentLoaded', async function() {
+            const headerContainer = document.getElementById('header-container');
+            if (headerContainer) {
+                try {
+                    const response = await fetch('header.html');
+                    if (response.ok) {
+                        headerContainer.innerHTML = await response.text();
+                        // Re-inicializar event listeners para el header cargado
+                        setupHeaderEventListeners();
+                        // Aplicar magnetic effect a los nuevos elementos
+                        applyMagneticEffect();
+                    }
+                } catch (error) {
+                    console.error('Error cargando header:', error);
+                }
+            }
+        });
+
         // Detectar preferencia de reducción de movimiento
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         
@@ -456,3 +475,70 @@ gsap.to('.map-legend', {
         } else {
             initCarousels();
         }
+
+        // Hacer funciones globales para que sean accesibles desde el HTML dinámico
+        window.toggleMenu = toggleMenu;
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.moveSlide = moveSlide;
+
+        // Función para re-aplicar event listeners cuando el header se carga dinámicamente
+        function setupHeaderEventListeners() {
+            // Close menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const hamburger = document.querySelector('.hamburger');
+                    const navMenu = document.querySelector('.nav-menu');
+                    
+                    if (hamburger && navMenu) {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        lenis.start();
+                    }
+                });
+            });
+        }
+
+        // Función para re-aplicar magnético effect
+        function applyMagneticEffect() {
+            if (window.innerWidth > 768 && !prefersReducedMotion) {
+                const magneticElements = document.querySelectorAll('.magnetic');
+                
+                magneticElements.forEach(elem => {
+                    // Remover listeners anteriores para evitar duplicados
+                    elem.removeEventListener('mousemove', handleMagneticMove);
+                    elem.removeEventListener('mouseleave', handleMagneticLeave);
+                    
+                    // Añadir nuevos listeners
+                    elem.addEventListener('mousemove', handleMagneticMove);
+                    elem.addEventListener('mouseleave', handleMagneticLeave);
+                });
+            }
+        }
+
+        // Funciones auxiliares para el efecto magnético
+        function handleMagneticMove(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            gsap.to(this, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        }
+
+        function handleMagneticLeave() {
+            gsap.to(this, {
+                x: 0,
+                y: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        }
+
+        window.setupHeaderEventListeners = setupHeaderEventListeners;
+        window.applyMagneticEffect = applyMagneticEffect;

@@ -1648,46 +1648,8 @@
 </head>
 <body>
 
-    <!-- Scroll Progress -->
-    <div class="scroll-progress" id="scrollProgress"></div>
-
-    <!-- Header -->
-    <header id="main-header">
-        <nav class="navbar container">
-            <a href="espro.html" class="logo-container">
-                <img src="imgs/logo3.png" alt="ESPROT" class="logo-img">
-                <div class="logo-text">
-                    <div class="logo-title">ESPROT</div>
-                    <div class="logo-subtitle">Tienda de Seguridad</div>
-                </div>
-            </a>
-
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="espro.html" class="nav-link"><i class="fas fa-home"></i> Inicio</a></li>
-                <li><a href="SHOP.html" class="nav-link" style="color: var(--primary);"><i class="fas fa-store"></i> Tienda</a></li>
-                <li><a href="espro.html#servicios" class="nav-link"><i class="fas fa-shield-alt"></i> Servicios</a></li>
-                <li><a href="espro.html#ubicacion" class="nav-link"><i class="fas fa-map-marker-alt"></i> Ubicación</a></li>
-                <li class="desktop-cart">
-                    <div class="cart-icon" onclick="toggleCart()">
-                        <i class="fas fa-shopping-cart fa-lg"></i>
-                        <span class="cart-count" id="cartCountDesktop">0</span>
-                    </div>
-                </li>
-            </ul>
-
-            <div class="mobile-actions">
-                <div class="cart-icon" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart fa-lg"></i>
-                    <span class="cart-count" id="cartCountMobile">0</span>
-                </div>
-                <div class="hamburger" onclick="toggleMenu()">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <!-- Header dinámico cargado desde header.html -->
+    <div id="header-container"></div>
 
     <!-- Hero Section -->
     <section class="hero-shop">
@@ -2762,5 +2724,6 @@
             }
         });
     </script>
+    <script src="scripts.js" defer></script>
 </body>
 </html>

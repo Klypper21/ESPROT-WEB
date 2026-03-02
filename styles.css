@@ -810,7 +810,7 @@
 .ueb-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* 2 columnas en PC */
-    gap: 1.2rem;
+    gap: 0.8rem;
     margin-top: 1.5rem;
 }
 
@@ -836,7 +836,7 @@
 
 .ueb-imagen {
     position: relative;
-    height: 160px;
+    height: 320px;
     overflow: hidden;
 }
 

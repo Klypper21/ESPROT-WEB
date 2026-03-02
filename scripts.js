@@ -17,6 +17,25 @@
             }
         });
 
+                // Cargar footer automáticamente en todas las páginas
+        document.addEventListener('DOMContentLoaded', async function() {
+            const footerContainer = document.getElementById('footer-container');
+            if (footerContainer) {
+                try {
+                    const response = await fetch('footer.html');
+                    if (response.ok) {
+                        footerContainer.innerHTML = await response.text();
+                        // Re-inicializar event listeners para el footer cargado
+                        setupFooterEventListeners();
+                        // Aplicar magnetic effect a los nuevos elementos
+                        applyMagneticEffect();
+                    }
+                } catch (error) {
+                    console.error('Error cargando footer:', error);
+                }
+            }
+        });
+
         // Detectar preferencia de reducción de movimiento
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         

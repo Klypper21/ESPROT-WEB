@@ -1,5 +1,6 @@
-        // Cargar header automáticamente en todas las páginas
+        // Cargar header y footer automáticamente en todas las páginas
         document.addEventListener('DOMContentLoaded', async function() {
+            // Cargar header
             const headerContainer = document.getElementById('header-container');
             if (headerContainer) {
                 try {
@@ -14,6 +15,23 @@
                 } catch (error) {
                     console.error('Error cargando header:', error);
                 }
+            }
+
+            // Cargar footer automáticamente
+            let footerContainer = document.getElementById('footer-container');
+            if (!footerContainer) {
+                footerContainer = document.createElement('div');
+                footerContainer.id = 'footer-container';
+                document.body.appendChild(footerContainer);
+            }
+
+            try {
+                const response = await fetch('footer.html');
+                if (response.ok) {
+                    footerContainer.innerHTML = await response.text();
+                }
+            } catch (error) {
+                console.error('Error cargando footer:', error);
             }
         });
 
@@ -215,36 +233,7 @@
             duration: 0.8,
             ease: 'power3.out'
         });
-
-        // Footer Animations
-        ScrollTrigger.create({
-            trigger: '.site-footer',
-            start: 'top 80%',
-            onEnter: () => {
-                document.querySelector('.site-footer').classList.add('revealed');
-                
-                gsap.to('.footer-column', {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.6,
-                    stagger: 0.1,
-                    ease: 'power3.out'
-                });
-
-                document.querySelectorAll('.footer-column').forEach(col => {
-                    col.classList.add('revealed');
-                });
-
-                gsap.to('.footer-bottom', {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.6,
-                    delay: 0.4,
-                    ease: 'power3.out'
-                });
-            }
-        });
-
+            
         // Magnetic Effect - Solo en dispositivos de escritorio
         if (window.innerWidth > 768 && !prefersReducedMotion) {
             const magneticElements = document.querySelectorAll('.magnetic');

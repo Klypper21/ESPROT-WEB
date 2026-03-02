@@ -1,6 +1,5 @@
-        // Cargar header y footer automáticamente en todas las páginas
+        // Cargar header automáticamente en todas las páginas
         document.addEventListener('DOMContentLoaded', async function() {
-            // Cargar header
             const headerContainer = document.getElementById('header-container');
             if (headerContainer) {
                 try {
@@ -14,23 +13,6 @@
                     }
                 } catch (error) {
                     console.error('Error cargando header:', error);
-                }
-            }
-
-            // Cargar footer
-            const footerContainer = document.getElementById('footer-container');
-            if (footerContainer) {
-                try {
-                    const response = await fetch('footer.html');
-                    if (response.ok) {
-                        footerContainer.innerHTML = await response.text();
-                        // Re-inicializar event listeners para el footer cargado
-                        setupFooterEventListeners();
-                        // Aplicar magnetic effect a los nuevos elementos
-                        applyMagneticEffect();
-                    }
-                } catch (error) {
-                    console.error('Error cargando footer:', error);
                 }
             }
         });
@@ -513,23 +495,6 @@ gsap.to('.map-legend', {
                         hamburger.classList.remove('active');
                         navMenu.classList.remove('active');
                         lenis.start();
-                    }
-                });
-            });
-        }
-
-        function setupFooterEventListeners() {
-            // Configurar event listeners para enlaces del footer
-            const footerLinks = document.querySelectorAll('.footer-links a, .footer-legal a, .site-footer a');
-            footerLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Los enlaces ya funcionan, solo asegurarse de que el smooth scroll funciona
-                    if (this.getAttribute('href').startsWith('#')) {
-                        e.preventDefault();
-                        const target = document.querySelector(this.getAttribute('href'));
-                        if (target && lenis) {
-                            lenis.scrollTo(target);
-                        }
                     }
                 });
             });

@@ -85,6 +85,11 @@
     align-items: center;
 }
 
+.footer-section.footer-contact {
+    text-align: center;
+    align-items: center;
+}
+
 .footer-section h4 {
     font-size: 1.3rem;
     font-weight: 700;
@@ -95,7 +100,7 @@
     margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    align-self: flex-start;
+
 }
 
 /* Marca/Logo del footer */

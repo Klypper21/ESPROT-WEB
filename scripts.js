@@ -1,5 +1,6 @@
-        // Cargar header automáticamente en todas las páginas
+        // Cargar header y footer automáticamente en todas las páginas
         document.addEventListener('DOMContentLoaded', async function() {
+            // Cargar header
             const headerContainer = document.getElementById('header-container');
             if (headerContainer) {
                 try {
@@ -15,10 +16,8 @@
                     console.error('Error cargando header:', error);
                 }
             }
-        });
 
-                // Cargar footer automáticamente en todas las páginas
-        document.addEventListener('DOMContentLoaded', async function() {
+            // Cargar footer
             const footerContainer = document.getElementById('footer-container');
             if (footerContainer) {
                 try {
@@ -514,6 +513,23 @@ gsap.to('.map-legend', {
                         hamburger.classList.remove('active');
                         navMenu.classList.remove('active');
                         lenis.start();
+                    }
+                });
+            });
+        }
+
+        function setupFooterEventListeners() {
+            // Configurar event listeners para enlaces del footer
+            const footerLinks = document.querySelectorAll('.footer-links a, .footer-legal a, .site-footer a');
+            footerLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Los enlaces ya funcionan, solo asegurarse de que el smooth scroll funciona
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target && lenis) {
+                            lenis.scrollTo(target);
+                        }
                     }
                 });
             });

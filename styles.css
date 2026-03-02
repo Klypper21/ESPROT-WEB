@@ -360,7 +360,7 @@
             inset: 0;
             background: radial-gradient(circle at top right, rgba(255,107,53,0.1), transparent),
                         linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)),
-                        url('imgs/fondo_ai.png');
+                        url('imgs/fondo_hero.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;

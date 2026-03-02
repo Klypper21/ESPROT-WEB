@@ -1,6 +1,9 @@
+        // Detectar preferencia de reducción de movimiento
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
         // Initialize Lenis for smooth scroll
         const lenis = new Lenis({
-            duration: 1.2,
+            duration: prefersReducedMotion ? 0.5 : 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             gestureDirection: 'vertical',
@@ -11,6 +14,7 @@
             infinite: false,
         });
 
+        let lastRAFTime = 0;
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
@@ -27,9 +31,19 @@
 
         gsap.ticker.lagSmoothing(0);
 
-        // Scroll Progress Bar
+        // Scroll Progress Bar - Optimized with throttling
+        let scrollProgressTimeout = null;
         lenis.on('scroll', ({ progress }) => {
-            document.getElementById('scrollProgress').style.width = `${progress * 100}%`;
+            if (scrollProgressTimeout) return;
+            
+            const progressBar = document.getElementById('scrollProgress');
+            if (progressBar) {
+                progressBar.style.width = `${progress * 100}%`;
+            }
+            
+            scrollProgressTimeout = setTimeout(() => {
+                scrollProgressTimeout = null;
+            }, 33); // Throttle to ~30fps
         });
 
         // GSAP Animations
@@ -212,32 +226,34 @@
             }
         });
 
-        // Magnetic Effect
-        const magneticElements = document.querySelectorAll('.magnetic');
-        
-        magneticElements.forEach(elem => {
-            elem.addEventListener('mousemove', (e) => {
-                const rect = elem.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                gsap.to(elem, {
-                    x: x * 0.3,
-                    y: y * 0.3,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-            });
+        // Magnetic Effect - Solo en dispositivos de escritorio
+        if (window.innerWidth > 768 && !prefersReducedMotion) {
+            const magneticElements = document.querySelectorAll('.magnetic');
             
-            elem.addEventListener('mouseleave', () => {
-                gsap.to(elem, {
-                    x: 0,
-                    y: 0,
-                    duration: 0.3,
-                    ease: 'power2.out'
+            magneticElements.forEach(elem => {
+                elem.addEventListener('mousemove', (e) => {
+                    const rect = elem.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    gsap.to(elem, {
+                        x: x * 0.3,
+                        y: y * 0.3,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+                
+                elem.addEventListener('mouseleave', () => {
+                    gsap.to(elem, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
                 });
             });
-        });
+        }
 
         // Hamburger Menu Logic
         function toggleMenu() {
@@ -266,14 +282,21 @@
             });
         });
 
-        // Scroll Header Effect
+        // Scroll Header Effect - Optimized with throttling
+        let headerScrollTimeout = null;
         window.addEventListener('scroll', () => {
+            if (headerScrollTimeout) return;
+            
             const header = document.getElementById('main-header');
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
             }
+            
+            headerScrollTimeout = setTimeout(() => {
+                headerScrollTimeout = null;
+            }, 33);
         }, { passive: true });
 
         // Carousel Logic
@@ -358,21 +381,20 @@ gsap.to('.map-legend', {
 
         // Form submission
         document.getElementById('contactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Animate button
+            // Animate button before submitting
             const btn = e.target.querySelector('.btn');
+            btn.textContent = 'Enviando...';
+            btn.disabled = true;
+            
             gsap.to(btn, {
                 scale: 0.95,
-                duration: 0.1,
+                duration: 0.2,
                 yoyo: true,
-                repeat: 1,
-                onComplete: () => {
-                    alert('¡Gracias por su solicitud! Nos pondremos en contacto pronto.');
-                    closeModal();
-                    e.target.reset();
-                }
+                repeat: 1
             });
+            
+            // FormSubmit manejará el envío automáticamente
+            // El formulario se enviará después de la animación
         });
 
         // Smooth scroll for anchor links

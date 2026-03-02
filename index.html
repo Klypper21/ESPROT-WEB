@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESPROT | Empresa de Seguridad y Protección de Sancti Spíritus</title>
+    <!-- Preconnect a CDNs para recursos críticos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="prefetch" href="https://images.unsplash.com">
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- GSAP & ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <!-- Lenis Smooth Scroll -->
-    <script src="https://unpkg.com/lenis@1.3.17/dist/lenis.min.js"></script>
     
 </head>
 <body>
@@ -25,7 +25,7 @@
     <header id="main-header">
         <nav class="navbar container">
             <a href="#" class="logo-container magnetic">
-                <img src="imgs/logo3.png" alt="ESPROT logo: blue star with red stylized S, representing security and protection services in Sancti Spiritus" class="logo-img">
+                <img src="imgs/logo3.png" alt="ESPROT logo: blue star with red stylized S, representing security and protection services in Sancti Spiritus" class="logo-img" loading="eager">
                 <div class="logo-text">
                     <div class="logo-title">ESPROT</div>
                     <div class="logo-subtitle">Seguridad y Protección</div>
@@ -67,7 +67,7 @@
         <section id="hero" class="hero">
             <div class="hero-bg" data-speed="0.5"></div>
             <div class="floating-shield">
-    <img src="imgs/logo3.png" alt="ESPROT Logo">
+    <img src="imgs/logo3.png" alt="ESPROT Logo" loading="lazy">
 </div>
             <div class="container">
                 <div class="hero-content">
@@ -94,9 +94,9 @@
             <div class="service-card">
                 <div class="carousel-container" data-carousel="1">
                     <div class="carousel-slide">
-                        <img src="imgs/raul.jpg" alt="Seguridad Personal">
-                        <img src="imgs/alba.jpg" alt="Agentes">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=500" alt="Protección">
+                        <img src="imgs/raul.jpg" alt="Seguridad Personal" loading="lazy">
+                        <img src="imgs/alba.jpg" alt="Agentes" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=500" alt="Protección" loading="lazy">
                     </div>
                     <button class="carousel-btn prev" onclick="moveSlide(-1, 0)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide(1, 0)">&#10095;</button>
@@ -111,9 +111,9 @@
             <div class="service-card">
                 <div class="carousel-container" data-carousel="2">
                     <div class="carousel-slide">
-                        <img src="imgs/cctv.jpg" alt="CCTV">
-                        <img src="imgs/orestes.jpg" alt="Monitoreo">
-                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=500" alt="Vigilancia">
+                        <img src="imgs/cctv.jpg" alt="CCTV" loading="lazy">
+                        <img src="imgs/orestes.jpg" alt="Monitoreo" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=500" alt="Vigilancia" loading="lazy">
                     </div>
                     <button class="carousel-btn prev" onclick="moveSlide(-1, 1)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide(1, 1)">&#10095;</button>
@@ -128,9 +128,9 @@
             <div class="service-card">
                 <div class="carousel-container" data-carousel="3">
                     <div class="carousel-slide">
-                        <img src="imgs/extintor.jpg" alt="Eventos">
-                        <img src="https://images.unsplash.com/photo-1505232458567-cc265c536dfc?auto=format&fit=crop&q=80&w=500" alt="Concierto">
-                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=500" alt="Evento Corporativo">
+                        <img src="imgs/extintor.jpg" alt="Eventos" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1505232458567-cc265c536dfc?auto=format&fit=crop&q=80&w=500" alt="Concierto" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=500" alt="Evento Corporativo" loading="lazy">
                     </div>
                     <button class="carousel-btn prev" onclick="moveSlide(-1, 2)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide(1, 2)">&#10095;</button>
@@ -145,9 +145,9 @@
             <div class="service-card">
                 <div class="carousel-container" data-carousel="4">
                     <div class="carousel-slide">
-                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=500" alt="Casa Segura">
-                        <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?auto=format&fit=crop&q=80&w=500" alt="Alarma Residencial">
-                        <img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&q=80&w=500" alt="Vigilancia Residencial">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=500" alt="Casa Segura" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?auto=format&fit=crop&q=80&w=500" alt="Alarma Residencial" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&q=80&w=500" alt="Vigilancia Residencial" loading="lazy">
                     </div>
                     <button class="carousel-btn prev" onclick="moveSlide(-1, 3)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide(1, 3)">&#10095;</button>
@@ -162,9 +162,9 @@
             <div class="service-card">
                 <div class="carousel-container" data-carousel="5">
                     <div class="carousel-slide">
-                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=500" alt="Redes Seguras">
-                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=500" alt="Firewall">
-                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=500" alt="Protección Digital">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=500" alt="Redes Seguras" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=500" alt="Firewall" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=500" alt="Protección Digital" loading="lazy">
                     </div>
                     <button class="carousel-btn prev" onclick="moveSlide(-1, 4)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide(1, 4)">&#10095;</button>
@@ -179,9 +179,9 @@
             <div class="service-card">
                 <div class="carousel-container" data-carousel="6">
                     <div class="carousel-slide">
-                        <img src="https://images.unsplash.com/photo-1561112075-2c0ee5823c07?auto=format&fit=crop&q=80&w=500" alt="Transporte Seguro">
-                        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=500" alt="Custodia">
-                        <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&q=80&w=500" alt="Logística">
+                        <img src="https://images.unsplash.com/photo-1561112075-2c0ee5823c07?auto=format&fit=crop&q=80&w=500" alt="Transporte Seguro" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=500" alt="Custodia" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&q=80&w=500" alt="Logística" loading="lazy">
                     </div>
                     <button class="carousel-btn prev" onclick="moveSlide(-1, 5)">&#10094;</button>
                     <button class="carousel-btn next" onclick="moveSlide(1, 5)">&#10095;</button>
@@ -209,7 +209,7 @@
                 <h3>Sede Principal</h3>
                 <div class="sede-container">
                     <div class="sede-imagen">
-                        <img src="imgs/empresa_ai.png" alt="Sede Principal ESPROT Sancti Spíritus" class="sede-img">
+                        <img src="imgs/empresa_ai.jpg" alt="Sede Principal ESPROT Sancti Spíritus" class="sede-img" loading="lazy">
                         <div class="sede-overlay">
                             <span>Centro de Operaciones 24/7</span>
                         </div>
@@ -440,7 +440,7 @@
                         <li><a href="#" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +53 555 123 4567</a></li>
                         <li><a href="mailto:info@esprot.com" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@esprot.com</a></li>
                         <li><a href="#ubicacion" class="magnetic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Sancti Spíritus, Cuba</a></li>
-                        <li><a href="javascript:void(0)" onclick="openModal()" class="btn btn-primary magnetic" style="padding: 0.6rem 1.5rem; margin-top: 0.5rem; display: inline-block;">Solicitar Evaluación</a></li>
+                        <li><a href="javascript:void(0)" onclick="openModal()" class="btn btn-primary magnetic" style="padding: 0.6rem 1.5rem; margin-top: 0.5rem; display: inline-block;">Solicitar Servicios</a></li>
                     </ul>
                 </div>
             </div>
@@ -459,17 +459,24 @@
     <!-- MODAL -->
     <div id="contactModal" class="modal">
         <div class="modal-content">
-            <h2>Solicitar Evaluación</h2>
-            <form id="contactForm">
-                <input type="text" placeholder="Nombre completo" required>
-                <input type="email" placeholder="Correo electrónico" required>
-                <textarea rows="4" placeholder="¿Cómo podemos ayudarle?" required></textarea>
+            <h2>Solicitar Servicios</h2>
+            <form id="contactForm" action="https://formsubmit.co/klypper21@gmail.com" method="POST">
+                <input type="text" name="nombre" placeholder="Nombre completo" required>
+                <input type="email" name="email" placeholder="Correo electrónico" required>
+                <textarea rows="4" name="mensaje" placeholder="¿Cómo podemos ayudarle?" required></textarea>
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://klypper21.github.io/ESPROT-WEB/">
                 <button type="submit" class="btn btn-primary" style="width: 100%">Enviar Solicitud</button>
             </form>
             <button class="close-btn" onclick="closeModal()">&times;</button>
         </div>
     </div>
-        <script src="scripts.js"></script>
+
+    <!-- Scripts optimizados con defer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <script src="https://unpkg.com/lenis@1.3.17/dist/lenis.min.js" defer></script>
+    <script src="scripts.js" defer></script>
 
 </body>
 </html>

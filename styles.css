@@ -1,17 +1,75 @@
-        :root {
-            --primary: #e63946;
-            --primary-dark: #c1121f;
-            --primary-light: #ff6b6b;
+﻿        :root {
+            /* Paleta de colores primarios - MODO OSCURO (Dark mode) */
+            --primary: #ff5555;
+            --primary-dark: #e63946;
+            --primary-light: #ff7777;
             --secondary: #1d3557;
-            --accent: #457b9d;
+            --accent: #4a9eff;
+            --accent-dark: #2980d9;
+            --accent-light: #6bb3ff;
+            
+            /* Colores de estado */
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --error: #ff6b7a;
+            --info: #4a9eff;
+            
+            /* Colores base */
             --dark: #0f172a;
             --dark-light: #1e293b;
-            --light: #f8f9fa;
-            --text-light: #f1faee;
-            --text-muted: #94a3b8;
-            --gradient: linear-gradient(135deg, var(--primary) 0%, #ff6b6b 100%);
+            --dark-lighter: #2a3f5f;
+            --light: #f9fafb;
+            
+            /* Modo oscuro (default) */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #2a3f5f;
+            --text-primary: #f5f7fb;
+            --text-secondary: #a8b5c7;
+            --text-muted: #6b7785;
+            --border-color: #2a3f5f;
+            
+            /* Efectos de vidrio y sombras */
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            --gradient-bg: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             --glass: rgba(29, 53, 87, 0.9);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --glass-light: rgba(42, 63, 95, 0.8);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --primary-rgb: 255, 85, 85;
+            --primary-dark-rgb: 230, 57, 70;
+        }
+        
+        /* Tema claro */
+        html.light-mode {
+            /* Colores primarios en modo claro */
+            --primary: #d62828;
+            --primary-dark: #b81c1c;
+            --primary-light: #e85555;
+            --accent: #0562b3;
+            --accent-dark: #043f7f;
+            --accent-light: #1e7ce0;
+            
+            /* Colores de fondo y texto */
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f3f4f6;
+            --text-primary: #1a202c;
+            --text-secondary: #4b5563;
+            --text-muted: #9ca3af;
+            --border-color: #e5e7eb;
+            
+            /* Efectos para modo claro */
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            --gradient-bg: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            --glass: rgba(255, 255, 255, 0.95);
+            --glass-light: rgba(243, 244, 246, 0.9);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --primary-rgb: 214, 40, 40;
+            --primary-dark-rgb: 184, 28, 28;
         }
 
         * {
@@ -26,10 +84,11 @@
         }
 
         body {
-            background-color: var(--dark);
-            color: var(--text-light);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* Smooth scroll container */
@@ -59,7 +118,7 @@
             z-index: 1000;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(5px);
-            background: rgba(15, 23, 42, 0.3);
+            background: rgba(15, 23, 42, 0.2);
             
             padding: 0.5rem 0;
             transform: translateY(-100%);
@@ -73,8 +132,8 @@
         header.scrolled {
             background: var(--glass);
             padding: 0.25rem 0;
-            box-shadow: var(--shadow);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border-color);
         }
 
         /* Logo container with text */
@@ -114,6 +173,7 @@
             font-size: 1.8rem;
             letter-spacing: -0.5px;
             background: linear-gradient(to right, #fff, var(--primary-light));
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1;
@@ -144,7 +204,7 @@
         }
 
         .nav-link {
-            color: var(--text-light);
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 600;
             font-size: 0.95rem;
@@ -266,7 +326,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--text-light);
+            color: var(--text-primary);
             font-size: 0.9rem;
             transition: transform 0.3s ease;
         }
@@ -291,6 +351,39 @@
             color: var(--primary-light);
         }
 
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: transparent;
+            border: 2px solid var(--text-primary);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: rotate(20deg) scale(1.1);
+        }
+        
+        .theme-toggle i {
+            transition: transform 0.4s ease;
+        }
+        
+        .theme-toggle.active i {
+            transform: rotate(180deg);
+        }
+        
         /* Hamburger menu */
         .hamburger {
             display: none;
@@ -665,7 +758,7 @@
 .location-info h2 {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
-    color: var(--text-light);
+    color: var(--text-primary);
     position: relative;
     display: inline-block;
 }
@@ -711,10 +804,10 @@
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     margin-bottom: 2.5rem;
-    background: linear-gradient(145deg, var(--dark-light) 0%, #151f32 100%);
+    background: var(--gradient-bg);
     border-radius: 20px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(30px);
@@ -786,7 +879,7 @@
 }
 
 .detail-item:hover {
-    color: var(--text-light);
+    color: var(--text-primary);
     transform: translateX(5px);
     background: rgba(230, 57, 70, 0.08);
 }
@@ -798,13 +891,13 @@
     text-align: center;
 }
 
-/* Sección UEB Municipales - Optimizada para PC */
+/* Secci�n UEB Municipales - Optimizada para PC */
 .ueb-section {
     margin: 2.5rem 0;
 }
 
 .ueb-section h4 {
-    color: var(--text-light);
+    color: var(--text-primary);
     font-size: 1.8rem;
     margin-bottom: 1.2rem;
     position: relative;
@@ -837,10 +930,10 @@
 }
 
 .ueb-card {
-    background: linear-gradient(145deg, var(--dark-light) 0%, #1a2438 100%);
+    background: var(--gradient-bg);
     border-radius: 15px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(30px);
@@ -917,7 +1010,7 @@
     display: flex;
     justify-content: space-between;
     padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-color);
     margin-top: auto;
 }
 
@@ -937,11 +1030,11 @@
 .branches-list {
     margin-top: 2.5rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-color);
 }
 
 .branches-list h4 {
-    color: var(--text-light);
+    color: var(--text-primary);
     margin-bottom: 1.2rem;
     font-size: 1.5rem;
 }
@@ -1068,7 +1161,7 @@
     align-items: center;
     gap: 0.8rem;
     margin-bottom: 0.6rem;
-    color: var(--text-light);
+    color: var(--text-primary);
     font-size: 0.9rem;
 }
 
@@ -1083,7 +1176,7 @@
     box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
 }
 
-/* Animaciones específicas para PC */
+/* Animaciones espec�ficas para PC */
 @media (min-width: 993px) {
     .location-content {
         grid-template-columns: 1fr;
@@ -1108,7 +1201,7 @@
     .branch-item:nth-child(4) { animation: fadeInUp 0.8s ease forwards 1.1s; }
 }
 
-/* Mantener responsive para móvil */
+/* Mantener responsive para m�vil */
 @media (max-width: 992px) {
     .location-content {
         grid-template-columns: 1fr;
@@ -1221,7 +1314,7 @@
         }
         
         .footer-column h4 {
-            color: var(--text-light);
+            color: var(--text-primary);
             font-size: 1.3rem;
             margin-bottom: 1.5rem;
             font-weight: 600;
@@ -1431,7 +1524,8 @@
 
         .modal-content h2 {
             margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #fff, var(--primary-light));
+            background: linear-gradient(to right, #fff, var(--primary-light));          
+            background-clip: text;        
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -1681,7 +1775,7 @@
 }
 
 .policy-block:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--border-color);
     transform: translateX(5px);
 }
 
@@ -1707,7 +1801,7 @@
 }
 
 .policy-block p {
-    color: var(--text-light);
+    color: var(--text-primary);
     line-height: 1.8;
     margin-bottom: 1rem;
     font-size: 0.95rem;
@@ -1719,7 +1813,7 @@
 }
 
 .policy-block li {
-    color: var(--text-light);
+    color: var(--text-primary);
     margin-bottom: 0.8rem;
     padding-left: 1.5rem;
     position: relative;
@@ -1728,7 +1822,7 @@
 }
 
 .policy-block li:before {
-    content: "▶";
+    content: "?";
     position: absolute;
     left: 0;
     color: var(--primary);
@@ -1797,7 +1891,7 @@
 
     .policy-block {
         padding: 1.2rem;
-        boundary-left-width: 3px;
+        border-left-width: 3px;
     }
 
     .policy-block h2 {
@@ -1820,3 +1914,4 @@
                 transition-duration: 0.01ms !important;
             }
         }
+

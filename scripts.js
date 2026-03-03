@@ -10,71 +10,15 @@
                         setupHeaderEventListeners();
                         // Aplicar magnetic effect a los nuevos elementos
                         applyMagneticEffect();
-                        // Configurar theme toggle
-                        setupThemeToggle();
                     }
                 } catch (error) {
                     console.error('Error cargando header:', error);
                 }
             }
         });
-        
-        // Theme Toggle Logic
-        function setupThemeToggle() {
-            const themeToggle = document.getElementById('themeToggle');
-            if (!themeToggle) return;
-            
-            // Cargar tema guardado o detectar preferencia del sistema
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDarkMode = savedTheme ? savedTheme === 'dark' : prefersDark;
-            
-            // Aplicar tema inicial
-            if (!isDarkMode) {
-                document.documentElement.classList.add('light-mode');
-                themeToggle.classList.add('active');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                themeToggle.title = 'Cambiar a modo oscuro';
-            }
-            
-            // Event listener para el toggle
-            themeToggle.addEventListener('click', () => {
-                const html = document.documentElement;
-                const isLightMode = html.classList.contains('light-mode');
-                
-                if (isLightMode) {
-                    html.classList.remove('light-mode');
-                    themeToggle.classList.remove('active');
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                    themeToggle.title = 'Cambiar a modo claro';
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    html.classList.add('light-mode');
-                    themeToggle.classList.add('active');
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                    themeToggle.title = 'Cambiar a modo oscuro';
-                    localStorage.setItem('theme', 'light');
-                }
-            });
-        }
-        
-        // Inicializar theme toggle si el header ya está cargado
-        window.addEventListener('load', () => {
-            if (document.getElementById('themeToggle')) {
-                setupThemeToggle();
-            }
-        });
 
         // Detectar preferencia de reducción de movimiento
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        
-        // Aplicar tema guardado al cargar la página
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const isDarkMode = savedTheme ? savedTheme === 'dark' : prefersDark;
-        if (!isDarkMode) {
-            document.documentElement.classList.add('light-mode');
-        }
         
         // Initialize Lenis for smooth scroll
         const lenis = new Lenis({
@@ -537,7 +481,6 @@ gsap.to('.map-legend', {
         window.openModal = openModal;
         window.closeModal = closeModal;
         window.moveSlide = moveSlide;
-        window.setupThemeToggle = setupThemeToggle;
 
         // Función para re-aplicar event listeners cuando el header se carga dinámicamente
         function setupHeaderEventListeners() {

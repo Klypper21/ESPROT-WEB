@@ -824,7 +824,7 @@
     opacity: 0;
     transform: translateY(30px);
     cursor: pointer;
-    height: 100%;
+    height: 500px;
     display: flex;
     flex-direction: column;
 }
@@ -839,6 +839,7 @@
     position: relative;
     height: 320px;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .ueb-imagen img {
@@ -872,6 +873,7 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    min-height: 0;
 }
 
 .ueb-info h5 {
@@ -911,6 +913,157 @@
 
 .ueb-stats i {
     color: var(--primary);
+}
+
+/* --- FLIP CARD STYLES --- */
+.ueb-card {
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-style: preserve-3d;
+}
+
+.ueb-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.flip-card-front {
+    flex-direction: column;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, var(--dark-card) 0%, rgba(12, 18, 34, 0.95) 100%);
+    padding: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.flip-card-back::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(220, 38, 38, 0.08) 0%, transparent 70%);
+    animation: rotateGradient 8s linear infinite;
+}
+
+@keyframes rotateGradient {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.back-content {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 280px;
+}
+
+.back-content h5 {
+    color: var(--primary);
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.services-list {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.services-list li {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    line-height: 1.5;
+    padding-left: 0.5rem;
+}
+
+.services-list li:last-child {
+    margin-bottom: 0;
+}
+
+.services-list i {
+    color: var(--primary);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    margin-top: 0.3rem;
+}
+
+.back-footer {
+    margin-top: auto;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.back-footer p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.back-footer strong {
+    color: var(--primary-light);
+    font-weight: 600;
+}
+
+.back-logo {
+    position: relative;
+    flex-shrink: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    height: 160px;
+    opacity: 0.18;
+    transition: opacity 0.3s ease;
+}
+
+.ueb-card:hover .back-logo {
+    opacity: 0.25;
+}
+
+.back-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
 }
 
 /* Extensiones Regionales - Optimizado para PC */
@@ -1116,6 +1269,74 @@
     
     .ueb-imagen {
         height: 200px;
+    }
+
+    /* Mobile UEB Card Styles */
+    .ueb-card {
+        height: auto;
+        min-height: 450px;
+    }
+
+    .flip-card-front {
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .ueb-imagen {
+        height: 280px;
+        flex-shrink: 0;
+    }
+
+    .ueb-info {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .flip-card-back {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 450px;
+    }
+
+    .back-content {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .back-content h5 {
+        text-align: center;
+    }
+
+    .services-list {
+        text-align: center;
+    }
+
+    .services-list li {
+        justify-content: center;
+    }
+
+    .back-footer {
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+    }
+
+    .back-logo {
+        position: relative;
+        top: 0;
+        right: 0;
+        transform: none;
+        margin-top: 1rem;
+        opacity: 0.2;
+    }
+
+    .back-logo img {
+        width: 120px;
+        height: 120px;
     }
 }
 
@@ -1575,6 +1796,59 @@
             .footer-legal {
                 flex-direction: column;
                 gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ueb-imagen {
+                height: 250px;
+            }
+
+            .ueb-card {
+                height: auto;
+                min-height: 400px;
+            }
+
+            .flip-card-front {
+                min-height: 400px;
+            }
+
+            .flip-card-back {
+                min-height: 400px;
+                padding: 1rem;
+            }
+
+            .back-logo img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .back-content h5 {
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .services-list li {
+                font-size: 0.85rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .back-footer {
+                margin-top: 1rem;
+                font-size: 0.75rem;
+            }
+
+            .ueb-info h5 {
+                font-size: 1.1rem;
+            }
+
+            .ueb-info p {
+                font-size: 0.85rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .ueb-stats span {
+                font-size: 0.75rem;
             }
         }
 

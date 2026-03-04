@@ -542,3 +542,40 @@ gsap.to('.map-legend', {
 
         window.setupHeaderEventListeners = setupHeaderEventListeners;
         window.applyMagneticEffect = applyMagneticEffect;
+
+        // ========== FLIP CARDS FUNCTIONALITY ==========
+        // Initialize flip cards for UEB municipals
+        function initializeFlipCards() {
+            const uebCards = document.querySelectorAll('.ueb-card');
+            
+            uebCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // No flip if clicking on an external link
+                    if (e.target.closest('a')) return;
+                    
+                    this.classList.toggle('flipped');
+                });
+                
+                // Optional: Add keyboard support (Enter/Space to flip)
+                card.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.classList.toggle('flipped');
+                    }
+                });
+                
+                // Make card focusable for accessibility
+                if (!card.hasAttribute('tabindex')) {
+                    card.setAttribute('tabindex', '0');
+                }
+            });
+        }
+
+        // Initialize flip cards when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeFlipCards);
+        } else {
+            initializeFlipCards();
+        }
+
+        window.initializeFlipCards = initializeFlipCards;

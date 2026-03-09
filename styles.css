@@ -30,7 +30,14 @@
             box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
         }
+        
+        *:focus {
+  outline: none;
+}
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
         html {
             scroll-behavior: auto; /* Lenis handles this */
         }

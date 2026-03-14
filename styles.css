@@ -1278,10 +1278,10 @@
         height: 200px;
     }
 
-    /* Mobile UEB Card Styles */
+    /* Mobile UEB Card Styles - tarjetas más cortas que en PC */
     .ueb-card {
         height: auto;
-        min-height: 450px;
+        min-height: 380px;
     }
 
     .flip-card-front {
@@ -1290,7 +1290,7 @@
     }
 
     .ueb-imagen {
-        height: 280px;
+        height: 350px;
         flex-shrink: 0;
     }
 
@@ -1306,7 +1306,7 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        min-height: 450px;
+        min-height: 380px;
     }
 
     .back-content {
@@ -1808,20 +1808,20 @@
 
         @media (max-width: 480px) {
             .ueb-imagen {
-                height: 250px;
+                height: 200px;
             }
 
             .ueb-card {
                 height: auto;
-                min-height: 400px;
+                min-height: 340px;
             }
 
             .flip-card-front {
-                min-height: 400px;
+                min-height: 340px;
             }
 
             .flip-card-back {
-                min-height: 400px;
+                min-height: 340px;
                 padding: 1rem;
             }
 
@@ -2058,7 +2058,7 @@
 
     .policy-block {
         padding: 1.2rem;
-        boundary-left-width: 3px;
+        border-left-width: 3px;
     }
 
     .policy-block h2 {
